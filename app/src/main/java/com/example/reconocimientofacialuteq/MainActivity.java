@@ -134,7 +134,7 @@ public class MainActivity extends AppCompatActivity {
                 imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
                 byte[] byteArray = stream.toByteArray();
                 String mens="nombre";
-                TextView salidaTextView = (TextView) findViewById(R.id.textView);
+                TextView salidaTextView = (TextView) findViewById(R.id.textView2);
                 try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream())) {
                     objectOutputStream.writeObject(byteArray);
                     objectOutputStream.writeObject(mens);
