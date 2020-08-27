@@ -25,6 +25,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.reconocimientofacialuteq.MainActivity;
+import com.example.reconocimientofacialuteq.MainActivity2;
 import com.example.reconocimientofacialuteq.R;
 import com.example.reconocimientofacialuteq.ui.login.LoginViewModel;
 import com.example.reconocimientofacialuteq.ui.login.LoginViewModelFactory;
@@ -116,7 +117,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 loadingProgressBar.setVisibility(View.VISIBLE);
-                Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                Intent intent = new Intent(LoginActivity.this, MainActivity2.class);
                 startActivity(intent);
                 /*
                 loginViewModel.login(usernameEditText.getText().toString(),
