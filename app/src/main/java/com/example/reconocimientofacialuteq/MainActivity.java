@@ -12,6 +12,7 @@ import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -54,6 +55,7 @@ public class MainActivity extends Activity {
     Uri uriTree;
     String absolutePhotoPath;
     Uri photoUri;
+    String nombre;
 
 
     private static final int SERVERPORT = 5555;
@@ -101,7 +103,6 @@ public class MainActivity extends Activity {
                 }catch (Exception c){
                     c.printStackTrace();
                 }
-
                 startActivityForResult(i,PHOTO_CONST);
             }
         }
@@ -136,8 +137,9 @@ public class MainActivity extends Activity {
             //carpeta "imagenesguardadas"
             String rutacarpeta = "imagenesguardadas/";
             // nombre del nuevo png
-            String nombre = "nuevo.png";
 
+            String timestamp= new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+            nombre= "nuevo"+timestamp+".png";
             // Compruebas si existe la carpeta "imagenesguardadas", sino, la crea
             File directorioImagenes = new File(ExternalStorageDirectory + rutacarpeta);
             if (!directorioImagenes.exists())
@@ -226,11 +228,13 @@ public class MainActivity extends Activity {
                 case PHOTO_CONST:
                     Uri uri= Uri.parse(absolutePhotoPath);
                     try {
+                        imageBitmap = BitmapFactory.decodeFile(uri.getPath());
                         imageView.setImageURI(uri);
                         D();
                     }catch (Exception c){
                         c.printStackTrace();
                     }
+                    new Thread(new ClientThread()).start();
                     break;
 
             }
@@ -244,15 +248,13 @@ public class MainActivity extends Activity {
             try {
                 socket = new Socket(SERVER_IP, SERVERPORT);
                 DataOutputStream salida;
-
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 imageBitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
                 byte[] byteArray = stream.toByteArray();
-                String mens="nombre";
                 TextView salidaTextView = (TextView) findViewById(R.id.textView2);
                 try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream())) {
                     objectOutputStream.writeObject(byteArray);
-                    objectOutputStream.writeObject(mens);
+                    objectOutputStream.writeObject(nombre);
                 }
             } catch (UnknownHostException e1) {
                 e1.printStackTrace();
