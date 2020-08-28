@@ -12,15 +12,15 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="160dp"
         android:layout_marginLeft="160dp"
-        android:layout_marginBottom="52dp"
+        android:layout_marginBottom="16dp"
         android:text="Button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/imageGaleria"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="369dp"
+        android:layout_height="481dp"
         android:layout_marginStart="68dp"
         android:layout_marginLeft="68dp"
         android:layout_marginTop="149dp"
@@ -29,8 +29,9 @@
         android:layout_marginBottom="227dp"
         app:layout_constraintBottom_toTopOf="@+id/buttonGalllery"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="0.505"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:src="@tools:sample/avatars" />
+        app:layout_constraintVertical_bias="0.366"
+        android:src="@drawable/logo"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -79,7 +79,13 @@ public class GalleryFragment extends Fragment {
         {
             imageUri = data.getData();
             imageView.setImageURI(imageUri);
-            new Thread(new ClientThread(imageBitmap)).start();
+            try {
+                imageBitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(),imageUri);
+                new Thread(new ClientThread(imageBitmap)).start();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
         }
         Toast.makeText(getActivity(), "Imagen cargado de galeria", Toast.LENGTH_SHORT).show();
     }
