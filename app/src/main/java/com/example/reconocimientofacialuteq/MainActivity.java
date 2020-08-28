@@ -59,7 +59,7 @@ public class MainActivity extends Activity {
 
 
     private static final int SERVERPORT = 5555;
-    private static final String SERVER_IP = "192.168.1.15";
+    private static final String SERVER_IP = "192.168.0.102";
     static final int REQUEST_TAKE_PHOTO = 1;
 
     private static final int PICK_IMAGE = 100;
