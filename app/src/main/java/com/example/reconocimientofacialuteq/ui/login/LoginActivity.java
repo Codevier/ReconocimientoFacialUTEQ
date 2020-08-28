@@ -37,8 +37,10 @@ import com.example.reconocimientofacialuteq.ui.login.LoginViewModel;
 import com.example.reconocimientofacialuteq.ui.login.LoginViewModelFactory;
 
 import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
@@ -48,9 +50,8 @@ public class LoginActivity extends AppCompatActivity {
     private LoginViewModel loginViewModel;
     private static final String IP = "192.168.1.15"; // Puedes cambiar a localhost
     private static final int PUERTO = 1100;
-
     private static final int SERVER_PORT = 5556;
-    private static final String SERVER_IP = "192.168.1.22";
+    private static final String SERVER_IP = "192.168.1.15";
     private  Socket socket;
     private String usuario="null";
     private String clave="null";
@@ -166,14 +167,22 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         public void run() {
             try {
+                String resp="";
                 socket = new Socket(SERVER_IP, SERVER_PORT);
-                ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream())) {
                     objectOutputStream.writeObject(usuario);
                     objectOutputStream.writeObject(clave);
+                    DataInputStream entrada = new DataInputStream(socket.getInputStream());
+                    resp= (String) entrada.readUTF();
+                } catch (IOException e) {
+                    e.printStackTrace();
                 }
-                Intent intent = new Intent(LoginActivity.this, MainActivity2.class);
-                startActivity(intent);
+                if("Ok".equals(resp)){
+                    Intent intent = new Intent(LoginActivity.this, MainActivity2.class);
+                    startActivity(intent);
+                }
+            } catch (UnknownHostException e) {
+                e.printStackTrace();
             } catch (IOException e) {
                 e.printStackTrace();
             }
