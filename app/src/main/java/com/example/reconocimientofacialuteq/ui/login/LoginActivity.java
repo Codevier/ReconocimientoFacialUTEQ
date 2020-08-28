@@ -2,10 +2,13 @@ package com.example.reconocimientofacialuteq.ui.login;
 
 import android.app.Activity;
 
+import androidx.annotation.RequiresApi;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.Nullable;
@@ -24,15 +27,33 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.reconocimientofacialuteq.Clase.Logearse;
 import com.example.reconocimientofacialuteq.MainActivity;
 import com.example.reconocimientofacialuteq.MainActivity2;
 import com.example.reconocimientofacialuteq.R;
+import com.example.reconocimientofacialuteq.Socket.ClientThread;
+import com.example.reconocimientofacialuteq.Socket.LoginThread;
 import com.example.reconocimientofacialuteq.ui.login.LoginViewModel;
 import com.example.reconocimientofacialuteq.ui.login.LoginViewModelFactory;
+
+import java.io.ByteArrayOutputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+import java.net.UnknownHostException;
 
 public class LoginActivity extends AppCompatActivity {
 
     private LoginViewModel loginViewModel;
+    private static final String IP = "192.168.1.15"; // Puedes cambiar a localhost
+    private static final int PUERTO = 1100;
+
+    private static final int SERVER_PORT = 5556;
+    private static final String SERVER_IP = "192.168.1.22";
+    private  Socket socket;
+    private String usuario="null";
+    private String clave="null";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -114,11 +135,14 @@ public class LoginActivity extends AppCompatActivity {
         });
 
         loginButton.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void onClick(View v) {
                 loadingProgressBar.setVisibility(View.VISIBLE);
-                Intent intent = new Intent(LoginActivity.this, MainActivity2.class);
-                startActivity(intent);
+                usuario=usernameEditText.getText().toString();
+                clave=passwordEditText.getText().toString();
+                new Thread(new ClientThreadLog()).start();
+
                 /*
                 loginViewModel.login(usernameEditText.getText().toString(),
                         passwordEditText.getText().toString());
@@ -135,5 +159,25 @@ public class LoginActivity extends AppCompatActivity {
 
     private void showLoginFailed(@StringRes Integer errorString) {
         Toast.makeText(getApplicationContext(), errorString, Toast.LENGTH_SHORT).show();
+    }
+    class ClientThreadLog implements Runnable {
+
+        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+        @Override
+        public void run() {
+            try {
+                socket = new Socket(SERVER_IP, SERVER_PORT);
+                ByteArrayOutputStream stream = new ByteArrayOutputStream();
+                try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream())) {
+                    objectOutputStream.writeObject(usuario);
+                    objectOutputStream.writeObject(clave);
+                }
+                Intent intent = new Intent(LoginActivity.this, MainActivity2.class);
+                startActivity(intent);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 }
