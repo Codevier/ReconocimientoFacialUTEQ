@@ -1,6 +1,20 @@
 package com.example.reconocimientofacialuteq.data;
 
+import android.content.Intent;
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
+import com.example.reconocimientofacialuteq.Clase.Servidor;
+import com.example.reconocimientofacialuteq.MainActivity2;
 import com.example.reconocimientofacialuteq.data.model.LoggedInUser;
+import com.example.reconocimientofacialuteq.ui.login.LoginActivity;
+
+import java.io.DataInputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
+import java.net.UnknownHostException;
 
 /**
  * Class that requests authentication and user information from the remote data source and
@@ -11,6 +25,7 @@ public class LoginRepository {
     private static volatile LoginRepository instance;
 
     private LoginDataSource dataSource;
+    private Socket socket;
 
     // If user credentials will be cached in local storage, it is recommended it be encrypted
     // @see https://developer.android.com/training/articles/keystore
@@ -50,5 +65,24 @@ public class LoginRepository {
             setLoggedInUser(((Result.Success<LoggedInUser>) result).getData());
         }
         return result;
+    }
+    class ClientThreadLog implements Runnable {
+
+        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+        @Override
+        public void run() {
+            try {
+                String resp="";
+                String idUser="";
+                socket = new Socket(Servidor.IpServidor, Servidor.PuertoLogin);
+
+
+            } catch (UnknownHostException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 }

@@ -12,11 +12,13 @@ import android.view.Menu;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.reconocimientofacialuteq.Clase.Servidor;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.RequiresApi;
+import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -27,6 +29,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -36,6 +39,7 @@ import java.net.UnknownHostException;
 public class MainActivity2 extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
+    private  Socket socket;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,6 +92,29 @@ public class MainActivity2 extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         for (Fragment fragment : getSupportFragmentManager().getFragments()) {
             fragment.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+    class NotificacionThread implements Runnable{
+        @Override
+        public void run() {
+            try {
+                socket = new Socket(Servidor.IpServidor, Servidor.PuertoNotificacion);
+                DataInputStream entrada = new DataInputStream(socket.getInputStream());
+                NotificationCompat.Builder mBuilder;
+                String notificacion;
+                while (true){
+                    notificacion= (String) entrada.readUTF();
+                    mBuilder =new NotificationCompat.Builder(getApplicationContext())
+                            .setContentTitle("Titulo")
+                            .setContentText(notificacion)
+                            .setVibrate(new long[] {100, 250, 100, 500})
+                            .setAutoCancel(true);
+
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
         }
     }
 }
