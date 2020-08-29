@@ -144,13 +144,17 @@ public class LoginActivity extends AppCompatActivity {
                 loadingProgressBar.setVisibility(View.VISIBLE);
                 usuario=usernameEditText.getText().toString();
                 clave=passwordEditText.getText().toString();
+                /*
                 Intent intent = new Intent(LoginActivity.this, MainActivity2.class);
                 intent.putExtra("usuario", usuario);
                 startActivity(intent);
+
+                 */
                 /*
                 loginViewModel.login(usernameEditText.getText().toString(),
                         passwordEditText.getText().toString());
                  */
+                new Thread(new ClientThreadLog()).start();
             }
         });
     }
@@ -171,17 +175,21 @@ public class LoginActivity extends AppCompatActivity {
         public void run() {
             try {
                 String resp="";
+                String idUser="";
                 socket = new Socket(SERVER_IP, SERVER_PORT);
                 try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream())) {
                     objectOutputStream.writeObject(usuario);
                     objectOutputStream.writeObject(clave);
                     DataInputStream entrada = new DataInputStream(socket.getInputStream());
                     resp= (String) entrada.readUTF();
+                    idUser= (String) entrada.readUTF();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
                 if("Ok".equals(resp)){
                     Intent intent = new Intent(LoginActivity.this, MainActivity2.class);
+                    intent.putExtra("usuario", usuario);
+                    intent.putExtra("idUser", idUser);
                     startActivity(intent);
                 }
             } catch (UnknownHostException e) {
@@ -193,3 +201,4 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 }
+

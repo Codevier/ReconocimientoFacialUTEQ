@@ -98,7 +98,7 @@ public class HomeFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == PHOTO_CONST && resultCode == Activity.RESULT_OK ){
             SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-            String username = getResources().getString(Integer.parseInt("userName"));
+            String username = getResources().getString(Integer.parseInt("idUser"));
         Uri uri= Uri.parse(absolutePhotoPath);
         try {
             imageBitmap = BitmapFactory.decodeFile(uri.getPath());
@@ -107,7 +107,7 @@ public class HomeFragment extends Fragment {
         }catch (Exception c){
             c.printStackTrace();
         }
-       //new Thread(new ClientThread(imageBitmap, username)).start();
+       new Thread(new ClientThread(imageBitmap, username)).start();
     }
     }
     private void D(){

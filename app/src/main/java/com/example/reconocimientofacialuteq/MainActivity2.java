@@ -82,7 +82,9 @@ public class MainActivity2 extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         String usuario = getIntent().getExtras().getString("usuario");
+        String idUser = getIntent().getExtras().getString("idUser");
         data.putExtra("usuario", usuario);
+        data.putExtra("idUser", idUser);
         super.onActivityResult(requestCode, resultCode, data);
         for (Fragment fragment : getSupportFragmentManager().getFragments()) {
             fragment.onActivityResult(requestCode, resultCode, data);
