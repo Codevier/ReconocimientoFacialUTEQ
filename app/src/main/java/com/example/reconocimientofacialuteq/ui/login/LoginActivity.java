@@ -182,16 +182,17 @@ public class LoginActivity extends AppCompatActivity {
                     objectOutputStream.writeObject(clave);
                     DataInputStream entrada = new DataInputStream(socket.getInputStream());
                     resp= (String) entrada.readUTF();
-                    idUser= (String) entrada.readUTF();
+                    if("Ok".equals(resp)){
+                        idUser= (String) entrada.readUTF();
+                        Intent intent = new Intent(LoginActivity.this, MainActivity2.class);
+                        intent.putExtra("usuario", usuario);
+                        intent.putExtra("idUser", idUser);
+                        startActivity(intent);
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-                if("Ok".equals(resp)){
-                    Intent intent = new Intent(LoginActivity.this, MainActivity2.class);
-                    intent.putExtra("usuario", usuario);
-                    intent.putExtra("idUser", idUser);
-                    startActivity(intent);
-                }
+
             } catch (UnknownHostException e) {
                 e.printStackTrace();
             } catch (IOException e) {
