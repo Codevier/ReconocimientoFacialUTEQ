@@ -142,7 +142,9 @@ public class LoginActivity extends AppCompatActivity {
                 loadingProgressBar.setVisibility(View.VISIBLE);
                 usuario=usernameEditText.getText().toString();
                 clave=passwordEditText.getText().toString();
-                new Thread(new ClientThreadLog()).start();
+                //new Thread(new ClientThreadLog()).start();
+                Intent intent = new Intent(LoginActivity.this, MainActivity2.class);
+                startActivity(intent);
 
                 /*
                 loginViewModel.login(usernameEditText.getText().toString(),
