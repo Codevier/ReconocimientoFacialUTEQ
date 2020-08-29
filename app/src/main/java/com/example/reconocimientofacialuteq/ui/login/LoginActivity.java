@@ -6,7 +6,9 @@ import androidx.annotation.RequiresApi;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
@@ -142,10 +144,9 @@ public class LoginActivity extends AppCompatActivity {
                 loadingProgressBar.setVisibility(View.VISIBLE);
                 usuario=usernameEditText.getText().toString();
                 clave=passwordEditText.getText().toString();
-                //new Thread(new ClientThreadLog()).start();
                 Intent intent = new Intent(LoginActivity.this, MainActivity2.class);
+                intent.putExtra("usuario", usuario);
                 startActivity(intent);
-
                 /*
                 loginViewModel.login(usernameEditText.getText().toString(),
                         passwordEditText.getText().toString());

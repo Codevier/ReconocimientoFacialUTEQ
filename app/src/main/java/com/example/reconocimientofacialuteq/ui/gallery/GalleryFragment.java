@@ -1,7 +1,9 @@
 package com.example.reconocimientofacialuteq.ui.gallery;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -77,6 +79,7 @@ public class GalleryFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE && resultCode == Activity.RESULT_OK && data != null && data.getData() != null )
         {
+            String usuario = data.getExtras().getString("usuario");
             imageUri = data.getData();
             imageView.setImageURI(imageUri);
             try {
@@ -84,7 +87,7 @@ public class GalleryFragment extends Fragment {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            new Thread(new ClientThread(imageBitmap)).start();
+            //new Thread(new ClientThread(imageBitmap,username)).start();
         }
         Toast.makeText(getActivity(), "Imagen cargado de galeria", Toast.LENGTH_SHORT).show();
     }

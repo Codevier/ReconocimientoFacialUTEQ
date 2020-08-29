@@ -17,12 +17,14 @@ import java.net.UnknownHostException;
 
 public class ClientThread implements Runnable {
     private static final int SERVERPORT = 5555;
-    private static final String SERVER_IP = "192.168.0.102";
+    private static final String SERVER_IP = "192.168.1.15";
     private  Socket socket;
+    String user;
     Bitmap bitmap;
 
-    public ClientThread(Bitmap bitmap) {
+    public ClientThread(Bitmap bitmap, String user) {
         this.bitmap=bitmap;
+        this.user=user;
     }
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -37,7 +39,7 @@ public class ClientThread implements Runnable {
             //TextView salidaTextView = (TextView) findViewById(R.id.textView2);
             try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream())) {
                 objectOutputStream.writeObject(byteArray);
-                objectOutputStream.writeObject("nombre");
+                objectOutputStream.writeObject(user);
             }
         } catch (UnknownHostException e1) {
             e1.printStackTrace();

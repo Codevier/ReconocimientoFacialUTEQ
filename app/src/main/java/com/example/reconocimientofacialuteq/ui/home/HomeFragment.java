@@ -3,7 +3,9 @@ package com.example.reconocimientofacialuteq.ui.home;
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -95,6 +97,8 @@ public class HomeFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == PHOTO_CONST && resultCode == Activity.RESULT_OK ){
+            SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+            String username = getResources().getString(Integer.parseInt("userName"));
         Uri uri= Uri.parse(absolutePhotoPath);
         try {
             imageBitmap = BitmapFactory.decodeFile(uri.getPath());
@@ -103,7 +107,7 @@ public class HomeFragment extends Fragment {
         }catch (Exception c){
             c.printStackTrace();
         }
-       new Thread(new ClientThread(imageBitmap)).start();
+       //new Thread(new ClientThread(imageBitmap, username)).start();
     }
     }
     private void D(){
@@ -115,14 +119,12 @@ public class HomeFragment extends Fragment {
             //carpeta "imagenesguardadas"
             String rutacarpeta = "imagenesguardadas/";
             // nombre del nuevo png
-
             String timestamp= new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
             nombre= "nuevo"+timestamp+".png";
             // Compruebas si existe la carpeta "imagenesguardadas", sino, la crea
             File directorioImagenes = new File(ExternalStorageDirectory + rutacarpeta);
             if (!directorioImagenes.exists())
                 directorioImagenes.mkdirs();
-
             // le pasas al bitmap la uri de la imagen seleccionada
             Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), photoUri);
             // pones las medidas que quieras del nuevo .png
@@ -131,11 +133,8 @@ public class HomeFragment extends Fragment {
             Bitmap bitmapout = Bitmap.createScaledBitmap(bitmap, bitmapWidth, bitmapHeight, false);
             //creas el nuevo png en la nueva ruta
             bitmapout.compress(Bitmap.CompressFormat.PNG, 100, new FileOutputStream(ExternalStorageDirectory + rutacarpeta + nombre));
-
             // le pones parametros necesarios a la imagen para que se muestre en cualquier galería
-
             File filefinal = new File(ExternalStorageDirectory + rutacarpeta + nombre);
-
             ContentValues values = new ContentValues();
             values.put(MediaStore.Images.Media.TITLE, "Titulo");
             values.put(MediaStore.Images.Media.DESCRIPTION, "Descripción");
