@@ -1,18 +1,21 @@
 package com.example.reconocimientofacialuteq;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.reconocimientofacialuteq.Clase.Servidor;
+import com.example.reconocimientofacialuteq.ui.login.LoginActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
@@ -40,6 +43,7 @@ public class MainActivity2 extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private  Socket socket;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +78,22 @@ public class MainActivity2 extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main_activity2, menu);
         return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            sharedPreferences= getSharedPreferences("Login",MODE_PRIVATE);
+            SharedPreferences.Editor editor= sharedPreferences.edit();
+            editor.remove("Logeado");
+            editor.commit();
+            Intent intent = new Intent(MainActivity2.this, LoginActivity.class);
+            startActivity(intent);
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
