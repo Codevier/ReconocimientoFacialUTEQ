@@ -50,7 +50,7 @@ public class GalleryFragment extends Fragment {
     Button btnGaleria;
     Button Notif;
     private static final int SERVERPORT = 5555;
-    private static final String SERVER_IP = "192.168.1.15";
+    private static final String SERVER_IP = "192.168.0.102";
     private Socket socket;
 
     public View onCreateView(@NonNull LayoutInflater inflater,

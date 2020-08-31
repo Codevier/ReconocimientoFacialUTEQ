@@ -40,10 +40,10 @@ import java.net.UnknownHostException;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private static final String IP = "192.168.1.15"; // Puedes cambiar a localhost
+    private static final String IP = "192.168.0.102"; // Puedes cambiar a localhost
     private static final int PUERTO = 1100;
     private static final int SERVER_PORT = 5556;
-    private static final String SERVER_IP = "192.168.1.15";
+    private static final String SERVER_IP = "192.168.0.102";
     private  Socket socket;
     private String usuario="null";
     private String clave="null";

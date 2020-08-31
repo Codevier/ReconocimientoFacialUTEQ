@@ -18,7 +18,7 @@ import java.net.UnknownHostException;
 
 public class LoginThread implements Runnable {
     private static final int SERVERPORT = 5556;
-    private static final String SERVER_IP = "192.168.1.22";
+    private static final String SERVER_IP = "192.168.0.102";
     private  Socket socket;
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
