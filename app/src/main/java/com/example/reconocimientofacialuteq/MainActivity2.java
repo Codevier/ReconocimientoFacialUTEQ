@@ -1,5 +1,9 @@
 package com.example.reconocimientofacialuteq;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -22,6 +26,7 @@ import com.google.android.material.navigation.NavigationView;
 
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
@@ -51,13 +56,31 @@ public class MainActivity2 extends AppCompatActivity {
         setContentView(R.layout.activity_main2);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        FloatingActionButton fab = findViewById(R.id.fab);
+        final FloatingActionButton fab = findViewById(R.id.fab);
         //imageView = (ImageView) findViewById(R.id.imageGaleria);
+
+        final NotificationCompat.Builder mBuilder =  new NotificationCompat.Builder(this,"Canal1")
+                .setContentTitle("Tutlane Send New Message")
+                .setContentText("Hi, Welcome to tutlane tutorial site");
+        // Set the intent to fire when the user taps on notification.
+        Intent resultIntent = new Intent(MainActivity2.this, MainActivity2.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(MainActivity2.this, 0, resultIntent, 0);
+        //mBuilder.setContentIntent(pendingIntent);
+        // Sets an ID for the notification
+        int mNotificationId = 001;
+        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+
+        final NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // It will display the notification in notification bar
+                //notificationManager.notify(mNotificationId, mBuilder.build());
+                notificationManagerCompat.notify(100, mBuilder.build());
+                //addNotification();
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+
             }
         });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -71,6 +94,25 @@ public class MainActivity2 extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+
+
+
+    }
+
+    private void addNotification() {
+        NotificationCompat.Builder builder =
+                new NotificationCompat.Builder(this)
+                        .setContentTitle("Notifications Example")
+                        .setContentText("This is a test notification");
+
+        Intent notificationIntent = new Intent(this, MainActivity2.class);
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent,
+                PendingIntent.FLAG_UPDATE_CURRENT);
+        builder.setContentIntent(contentIntent);
+
+        // Add as notification
+        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        manager.notify(0, builder.build());
     }
 
     @Override
@@ -84,6 +126,7 @@ public class MainActivity2 extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
+
             sharedPreferences= getSharedPreferences("Login",MODE_PRIVATE);
             SharedPreferences.Editor editor= sharedPreferences.edit();
             editor.remove("Logeado");
@@ -105,14 +148,32 @@ public class MainActivity2 extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        String usuario = getIntent().getExtras().getString("usuario");
-        String idUser = getIntent().getExtras().getString("idUser");
+        String usuario ="";
+        //getIntent().getExtras().getString("usuario");
+        String idUser ="";
+        //getIntent().getExtras().getString("idUser");
         data.putExtra("usuario", usuario);
         data.putExtra("idUser", idUser);
         super.onActivityResult(requestCode, resultCode, data);
         for (Fragment fragment : getSupportFragmentManager().getFragments()) {
             fragment.onActivityResult(requestCode, resultCode, data);
         }
+    }
+    public void Notificar(){
+
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
+                new Intent(this, MainActivity2.class), PendingIntent.FLAG_UPDATE_CURRENT);
+        NotificationCompat.Builder mBuilder =new NotificationCompat.Builder(getApplicationContext())
+                .setContentIntent(contentIntent)
+                .setContentTitle("Titulo")
+                .setContentText("Xavier equis de")
+                .setVibrate(new long[] {100, 250, 100, 500})
+                .setAutoCancel(true);
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+
+        // notificationId is a unique int for each notification that you must define
+        notificationManager.notify(2, mBuilder.build());
+
     }
     class NotificacionThread implements Runnable{
         @Override

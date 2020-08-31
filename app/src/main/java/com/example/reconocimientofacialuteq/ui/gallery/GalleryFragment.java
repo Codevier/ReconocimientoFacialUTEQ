@@ -1,6 +1,8 @@
 package com.example.reconocimientofacialuteq.ui.gallery;
 
 import android.app.Activity;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -21,6 +23,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
+import androidx.core.app.NotificationCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -45,12 +48,13 @@ public class GalleryFragment extends Fragment {
     Uri imageUri;
     private static Bitmap imageBitmap;
     Button btnGaleria;
+    Button Notif;
     private static final int SERVERPORT = 5555;
     private static final String SERVER_IP = "192.168.1.15";
     private Socket socket;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
+                             final ViewGroup container, Bundle savedInstanceState) {
         galleryViewModel =
                 ViewModelProviders.of(this).get(GalleryViewModel.class);
         View root = inflater.inflate(R.layout.fragment_gallery, container, false);
@@ -64,12 +68,19 @@ public class GalleryFragment extends Fragment {
             }
         });
         imageView= (ImageView) root.findViewById(R.id.imageGaleria);
+        Notif=(Button) root.findViewById(R.id.butonNotificacion);
         btnGaleria=(Button) root.findViewById(R.id.buttonGalllery);
         btnGaleria.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
                 startActivityForResult(gallery, PICK_IMAGE);
+            }
+        });
+        Notif.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
             }
         });
         return root;

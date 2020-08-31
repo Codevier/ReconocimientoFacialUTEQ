@@ -97,7 +97,7 @@ public class HomeFragment extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == PHOTO_CONST && resultCode == Activity.RESULT_OK ){
-            SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
+            //SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
             String username = getResources().getString(Integer.parseInt("idUser"));
         Uri uri= Uri.parse(absolutePhotoPath);
         try {
