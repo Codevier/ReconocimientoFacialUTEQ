@@ -59,6 +59,7 @@ public class HomeFragment extends Fragment {
         root = inflater.inflate(R.layout.fragment_home, container, false);
         //final TextView textView = root.findViewById(R.id.text_home);
         imageView = (ImageView) root.findViewById(R.id.imageView3);
+
         btfoto=root.findViewById(R.id.camara);
         btfoto.setOnClickListener(new View.OnClickListener() {
             @Override

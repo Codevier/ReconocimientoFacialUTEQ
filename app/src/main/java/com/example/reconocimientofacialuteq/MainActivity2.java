@@ -1,11 +1,13 @@
 package com.example.reconocimientofacialuteq;
 
+import android.Manifest;
 import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -43,6 +45,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 
 public class MainActivity2 extends AppCompatActivity {
 
@@ -55,6 +58,12 @@ public class MainActivity2 extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
         Toolbar toolbar = findViewById(R.id.toolbar);
+        ArrayList<String> permisos = new ArrayList<String>();
+        permisos.add(Manifest.permission.CAMERA);
+        permisos.add(Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        permisos.add(Manifest.permission.READ_EXTERNAL_STORAGE);
+        permisos.add(Manifest.permission.WRITE_CALENDAR);
+        getPermission(permisos);
         setSupportActionBar(toolbar);
         final FloatingActionButton fab = findViewById(R.id.fab);
         //imageView = (ImageView) findViewById(R.id.imageGaleria);
@@ -98,7 +107,23 @@ public class MainActivity2 extends AppCompatActivity {
 
 
     }
+    public ArrayList<String> getPermisosNoAprobados(ArrayList<String> listaPermisos) {
+        ArrayList<String> list = new ArrayList<String>();
+        for (String permiso : listaPermisos) {
+            if (Build.VERSION.SDK_INT >= 23)
+                if (checkSelfPermission(permiso) != PackageManager.PERMISSION_GRANTED)
+                    list.add(permiso);
+        }
+        return list;
+    }
+    public void getPermission(ArrayList<String> permisosSolicitados) {
 
+        ArrayList<String> listPermisosNOAprob = getPermisosNoAprobados(permisosSolicitados);
+        if (listPermisosNOAprob.size() > 0)
+            if (Build.VERSION.SDK_INT >= 23)
+                requestPermissions(listPermisosNOAprob.toArray(new String[listPermisosNOAprob.size()]), 1);
+
+    }
     private void addNotification() {
         NotificationCompat.Builder builder =
                 new NotificationCompat.Builder(this)
@@ -190,12 +215,10 @@ public class MainActivity2 extends AppCompatActivity {
                             .setContentText(notificacion)
                             .setVibrate(new long[] {100, 250, 100, 500})
                             .setAutoCancel(true);
-
                 }
             } catch (IOException e) {
                 e.printStackTrace();
             }
-
         }
     }
 }
