@@ -51,7 +51,7 @@ public class MainActivity2 extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private  Socket socket;
-    private SharedPreferences sharedPreferences;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,29 +67,34 @@ public class MainActivity2 extends AppCompatActivity {
         setSupportActionBar(toolbar);
         final FloatingActionButton fab = findViewById(R.id.fab);
         //imageView = (ImageView) findViewById(R.id.imageGaleria);
-
+        /*
         final NotificationCompat.Builder mBuilder =  new NotificationCompat.Builder(this,"Canal1")
                 .setContentTitle("Tutlane Send New Message")
                 .setContentText("Hi, Welcome to tutlane tutorial site");
+         */
         // Set the intent to fire when the user taps on notification.
+        /*
         Intent resultIntent = new Intent(MainActivity2.this, MainActivity2.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(MainActivity2.this, 0, resultIntent, 0);
+         */
         //mBuilder.setContentIntent(pendingIntent);
         // Sets an ID for the notification
+        /*
         int mNotificationId = 001;
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
         final NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
+
+         */
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // It will display the notification in notification bar
                 //notificationManager.notify(mNotificationId, mBuilder.build());
-                notificationManagerCompat.notify(100, mBuilder.build());
+                //notificationManagerCompat.notify(100, mBuilder.build());
                 //addNotification();
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
-
             }
         });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -103,9 +108,6 @@ public class MainActivity2 extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-
-
-
     }
     public ArrayList<String> getPermisosNoAprobados(ArrayList<String> listaPermisos) {
         ArrayList<String> list = new ArrayList<String>();
@@ -151,7 +153,7 @@ public class MainActivity2 extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
         if (id == R.id.action_settings) {
-
+            SharedPreferences sharedPreferences;
             sharedPreferences= getSharedPreferences("Login",MODE_PRIVATE);
             SharedPreferences.Editor editor= sharedPreferences.edit();
             editor.remove("Logeado");
@@ -173,12 +175,12 @@ public class MainActivity2 extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        String usuario ="";
+        String usuario ="Xavier";
         //getIntent().getExtras().getString("usuario");
-        String idUser ="";
+        String idUser ="1";
         //getIntent().getExtras().getString("idUser");
-        data.putExtra("usuario", usuario);
-        data.putExtra("idUser", idUser);
+        //data.putExtra("usuario", usuario);
+        //data.putExtra("idUser", idUser);
         super.onActivityResult(requestCode, resultCode, data);
         for (Fragment fragment : getSupportFragmentManager().getFragments()) {
             fragment.onActivityResult(requestCode, resultCode, data);

@@ -65,7 +65,6 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 i=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-
                 if(i.resolveActivity(getActivity().getPackageManager())!=null){
                     File photofile=null;
                     try {
@@ -99,7 +98,8 @@ public class HomeFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == PHOTO_CONST && resultCode == Activity.RESULT_OK ){
             //SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
-            String username = getResources().getString(Integer.parseInt("idUser"));
+            //String username = getResources().getString(Integer.parseInt("idUser"))
+            String username="Ejemplo";
         Uri uri= Uri.parse(absolutePhotoPath);
         try {
             imageBitmap = BitmapFactory.decodeFile(uri.getPath());

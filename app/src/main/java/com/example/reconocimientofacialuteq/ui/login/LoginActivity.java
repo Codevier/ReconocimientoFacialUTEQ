@@ -30,7 +30,6 @@ import android.widget.Toast;
 import com.example.reconocimientofacialuteq.Clase.Servidor;
 import com.example.reconocimientofacialuteq.MainActivity2;
 import com.example.reconocimientofacialuteq.R;
-import com.example.reconocimientofacialuteq.data.Result;
 
 import java.io.DataInputStream;
 import java.io.IOException;
