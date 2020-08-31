@@ -17,6 +17,7 @@ import android.provider.MediaStore;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -51,7 +52,7 @@ public class MainActivity2 extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private  Socket socket;
-
+    Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +67,27 @@ public class MainActivity2 extends AppCompatActivity {
         getPermission(permisos);
         setSupportActionBar(toolbar);
         final FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String message= "Es una notificación!";
+                NotificationCompat.Builder builder= new NotificationCompat.Builder(MainActivity2.this)
+                        .setSmallIcon(R.drawable.reflection)
+                        .setContentTitle("Nueva notificación")
+                        .setContentText(message)
+                        .setAutoCancel(true);
+                Intent intent= new Intent(MainActivity2.this,Notification.class);
+                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra("mensaje",message);
+                PendingIntent pendingIntent= PendingIntent.getActivity(MainActivity2.this,0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+                builder.setContentIntent(pendingIntent);
+                NotificationManager notificationManager= (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
+                notificationManager.notify(0,builder.build());
+
+
+
+            }
+        });
         //imageView = (ImageView) findViewById(R.id.imageGaleria);
         /*
         final NotificationCompat.Builder mBuilder =  new NotificationCompat.Builder(this,"Canal1")
@@ -93,8 +115,10 @@ public class MainActivity2 extends AppCompatActivity {
                 //notificationManager.notify(mNotificationId, mBuilder.build());
                 //notificationManagerCompat.notify(100, mBuilder.build());
                 //addNotification();
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                onReceive(MainActivity2.this);
+
+               // Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                 //       .setAction("Action", null).show();
             }
         });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -108,6 +132,17 @@ public class MainActivity2 extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+    }
+    public void onReceive(Context context ) {
+
+        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+        final Notification notification = new NotificationCompat.Builder(context)
+                .setSmallIcon(R.drawable.reflection)
+                .setContentTitle("tite"/*your notification title*/)
+                .setContentText("Some example context string"/*notifcation message*/)
+                .build();
+        notification.flags = Notification.DEFAULT_LIGHTS | Notification.FLAG_AUTO_CANCEL;
+        notificationManager.notify(1000/*some int*/, notification);
     }
     public ArrayList<String> getPermisosNoAprobados(ArrayList<String> listaPermisos) {
         ArrayList<String> list = new ArrayList<String>();
