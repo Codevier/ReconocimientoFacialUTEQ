@@ -197,9 +197,12 @@ public class MainActivity2 extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         //String usuario ="Xavier";
         //getIntent().getExtras().getString("usuario");
-        String idUser =Usuario();
+
         //getIntent().getExtras().getString("idUser");
         //data.putExtra("usuario", usuario);
+
+        SharedPreferences sharedPreferences2= getSharedPreferences("Login",MODE_PRIVATE);
+        String idUser =sharedPreferences2.getString("IdUser","0");
         data.putExtra("idUser", idUser);
         super.onActivityResult(requestCode, resultCode, data);
         for (Fragment fragment : getSupportFragmentManager().getFragments()) {

@@ -128,7 +128,7 @@ public class LoginActivity extends AppCompatActivity {
                             editor.putString("IdUser",idUser);
                             editor.apply();
                         }
-                        intent.putExtra("idUser", idUser);
+                        //intent.putExtra("idUser", idUser);
                         startActivity(intent);
                         finish();
                     }
