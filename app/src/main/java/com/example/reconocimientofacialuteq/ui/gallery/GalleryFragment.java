@@ -91,7 +91,7 @@ public class GalleryFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE && resultCode == Activity.RESULT_OK && data != null && data.getData() != null )
         {
-            String usuario = data.getExtras().getString("idUser");
+            String usuario = "1";// data.getExtras().getString("idUser");
             imageUri = data.getData();
             imageView.setImageURI(imageUri);
             try {

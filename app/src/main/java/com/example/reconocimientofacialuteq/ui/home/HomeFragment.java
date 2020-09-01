@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -98,16 +99,20 @@ public class HomeFragment extends Fragment {
         if(requestCode == PHOTO_CONST && resultCode == Activity.RESULT_OK ){
             //SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);
             //String username = getResources().getString(Integer.parseInt("idUser"))
-            String userId=data.getExtras().getString("idUser");
+            String userId="1";//data.getExtras().getString("idUser");
         Uri uri= Uri.parse(absolutePhotoPath);
         try {
+
             imageBitmap = BitmapFactory.decodeFile(uri.getPath());
             imageView.setImageURI(uri);
             D();
         }catch (Exception c){
             c.printStackTrace();
         }
-       new Thread(new ClientThread(imageBitmap, userId)).start();
+            Matrix matrix = new Matrix();
+            matrix.postRotate(270);
+            imageBitmap= Bitmap.createBitmap(imageBitmap, 0, 0, imageBitmap.getWidth(), imageBitmap.getHeight(), matrix, true);
+            new Thread(new ClientThread(imageBitmap, userId)).start();
     }
     }
     private void D(){

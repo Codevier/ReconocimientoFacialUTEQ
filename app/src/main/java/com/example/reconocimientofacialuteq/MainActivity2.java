@@ -83,6 +83,10 @@ public class MainActivity2 extends AppCompatActivity {
         });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
+        mAppBarConfiguration = new AppBarConfiguration.Builder(
+                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow)
+                .setDrawerLayout(drawer)
+                .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
@@ -195,15 +199,9 @@ public class MainActivity2 extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        //String usuario ="Xavier";
-        //getIntent().getExtras().getString("usuario");
-
-        //getIntent().getExtras().getString("idUser");
-        //data.putExtra("usuario", usuario);
-
-        SharedPreferences sharedPreferences2= getSharedPreferences("Login",MODE_PRIVATE);
-        String idUser =sharedPreferences2.getString("IdUser","0");
-        data.putExtra("idUser", idUser);
+       // SharedPreferences sharedPreferences2= getSharedPreferences("Login",MODE_PRIVATE);
+        ///String idUser =sharedPreferences2.getString("IdUser","0");
+        //data.putExtra("idUser", idUser);
         super.onActivityResult(requestCode, resultCode, data);
         for (Fragment fragment : getSupportFragmentManager().getFragments()) {
             fragment.onActivityResult(requestCode, resultCode, data);
