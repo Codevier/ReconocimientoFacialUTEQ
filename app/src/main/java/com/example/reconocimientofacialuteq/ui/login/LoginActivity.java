@@ -64,6 +64,7 @@ public class LoginActivity extends AppCompatActivity {
         {
             Intent intent = new Intent(LoginActivity.this, MainActivity2.class);
             startActivity(intent);
+            finish();
         }
         sharedPreferences= getSharedPreferences("Login",MODE_PRIVATE);
 
@@ -124,6 +125,7 @@ public class LoginActivity extends AppCompatActivity {
                         if(guardarCredenciales){
                             SharedPreferences.Editor editor= sharedPreferences.edit();
                             editor.putBoolean("Logeado",true);
+                            editor.putString("IdUser",idUser);
                             editor.apply();
                         }
                         intent.putExtra("idUser", idUser);

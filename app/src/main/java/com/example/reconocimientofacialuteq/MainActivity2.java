@@ -72,29 +72,7 @@ public class MainActivity2 extends AppCompatActivity {
         setSupportActionBar(toolbar);
         final FloatingActionButton fab = findViewById(R.id.fab);
         //imageView = (ImageView) findViewById(R.id.imageGaleria);
-        notificacion = new NotificationCompat.Builder(this);
-
-        mBuilder=  new NotificationCompat.Builder(this,"Canal1")
-                .setSmallIcon(R.drawable.ic_stat_name)
-                .setContentTitle("Tutlane Send New Message")
-                .setContentText("Hi, Welcome to tutlane tutorial site");
-
-        // Set the intent to fire when the user taps on notification.
-        /*
-        Intent resultIntent = new Intent(MainActivity2.this, MainActivity2.class);
-        PendingIntent pendingIntent = PendingIntent.getActivity(MainActivity2.this, 0, resultIntent, 0);
-         */
-        //mBuilder.setContentIntent(pendingIntent);
-        // Sets an ID for the notification
-/*
-        int mNotificationId = 001;
-        NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-
- */
-
         notificationManagerCompat = NotificationManagerCompat.from(this);
-
-
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -105,12 +83,6 @@ public class MainActivity2 extends AppCompatActivity {
         });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
-        mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow)
-                .setDrawerLayout(drawer)
-                .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
@@ -125,6 +97,10 @@ public class MainActivity2 extends AppCompatActivity {
         return list;
     }
 
+    public String Usuario(){
+        SharedPreferences sharedPreferences2= getSharedPreferences("Login",MODE_PRIVATE);
+        return sharedPreferences2.getString("IdUser","0");
+    }
 
     public void createNotification(String aMessage, Context context) {
         final int NOTIFY_ID = 0; // ID of notification
@@ -219,12 +195,12 @@ public class MainActivity2 extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        String usuario ="Xavier";
+        //String usuario ="Xavier";
         //getIntent().getExtras().getString("usuario");
-        String idUser ="1";
+        String idUser =Usuario();
         //getIntent().getExtras().getString("idUser");
         //data.putExtra("usuario", usuario);
-        //data.putExtra("idUser", idUser);
+        data.putExtra("idUser", idUser);
         super.onActivityResult(requestCode, resultCode, data);
         for (Fragment fragment : getSupportFragmentManager().getFragments()) {
             fragment.onActivityResult(requestCode, resultCode, data);
