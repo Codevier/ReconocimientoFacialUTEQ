@@ -120,7 +120,7 @@ public class HomeFragment extends Fragment {
             String rutacarpeta = "imagenesguardadas/";
             // nombre del nuevo png
             String timestamp= new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
-            nombre= "nuevo"+timestamp+".png";
+            nombre= "nuevo"+timestamp+".jpg";
             // Compruebas si existe la carpeta "imagenesguardadas", sino, la crea
             File directorioImagenes = new File(ExternalStorageDirectory + rutacarpeta);
             if (!directorioImagenes.exists())
