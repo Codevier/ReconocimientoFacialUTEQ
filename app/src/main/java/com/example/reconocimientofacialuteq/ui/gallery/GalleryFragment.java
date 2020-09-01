@@ -101,7 +101,7 @@ public class GalleryFragment extends Fragment {
             }
             new Thread(new ClientThread(imageBitmap, usuario)).start();
         }
-        Toast.makeText(getActivity(), "Imagen cargado de galeria", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getActivity(), "Imagen cargado de galeria.", Toast.LENGTH_SHORT).show();
     }
 
 
