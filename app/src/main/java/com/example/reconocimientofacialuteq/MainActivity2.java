@@ -2,6 +2,7 @@ package com.example.reconocimientofacialuteq;
 
 import android.Manifest;
 import android.app.Notification;
+import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -17,7 +18,6 @@ import android.provider.MediaStore;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Menu;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -52,7 +52,11 @@ public class MainActivity2 extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private  Socket socket;
-    Button button;
+    NotificationCompat.Builder mBuilder;
+    NotificationCompat.Builder notificacion;
+    NotificationManagerCompat notificationManagerCompat;
+
+    private NotificationManager notifManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,33 +71,14 @@ public class MainActivity2 extends AppCompatActivity {
         getPermission(permisos);
         setSupportActionBar(toolbar);
         final FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String message= "Es una notificación!";
-                NotificationCompat.Builder builder= new NotificationCompat.Builder(MainActivity2.this)
-                        .setSmallIcon(R.drawable.reflection)
-                        .setContentTitle("Nueva notificación")
-                        .setContentText(message)
-                        .setAutoCancel(true);
-                Intent intent= new Intent(MainActivity2.this,Notification.class);
-                intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.putExtra("mensaje",message);
-                PendingIntent pendingIntent= PendingIntent.getActivity(MainActivity2.this,0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-                builder.setContentIntent(pendingIntent);
-                NotificationManager notificationManager= (NotificationManager)getSystemService(Context.NOTIFICATION_SERVICE);
-                notificationManager.notify(0,builder.build());
-
-
-
-            }
-        });
         //imageView = (ImageView) findViewById(R.id.imageGaleria);
-        /*
-        final NotificationCompat.Builder mBuilder =  new NotificationCompat.Builder(this,"Canal1")
+        notificacion = new NotificationCompat.Builder(this);
+
+        mBuilder=  new NotificationCompat.Builder(this,"Canal1")
+                .setSmallIcon(R.drawable.ic_stat_name)
                 .setContentTitle("Tutlane Send New Message")
                 .setContentText("Hi, Welcome to tutlane tutorial site");
-         */
+
         // Set the intent to fire when the user taps on notification.
         /*
         Intent resultIntent = new Intent(MainActivity2.this, MainActivity2.class);
@@ -101,24 +86,21 @@ public class MainActivity2 extends AppCompatActivity {
          */
         //mBuilder.setContentIntent(pendingIntent);
         // Sets an ID for the notification
-        /*
+/*
         int mNotificationId = 001;
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
 
-        final NotificationManagerCompat notificationManagerCompat = NotificationManagerCompat.from(this);
+ */
 
-         */
+        notificationManagerCompat = NotificationManagerCompat.from(this);
+
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // It will display the notification in notification bar
-                //notificationManager.notify(mNotificationId, mBuilder.build());
-                //notificationManagerCompat.notify(100, mBuilder.build());
-                //addNotification();
-                onReceive(MainActivity2.this);
-
-               // Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                 //       .setAction("Action", null).show();
+                createNotification("hola",MainActivity2.this);
+                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+                        .setAction("Action", null).show();
             }
         });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -133,17 +115,6 @@ public class MainActivity2 extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
     }
-    public void onReceive(Context context ) {
-
-        NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
-        final Notification notification = new NotificationCompat.Builder(context)
-                .setSmallIcon(R.drawable.reflection)
-                .setContentTitle("tite"/*your notification title*/)
-                .setContentText("Some example context string"/*notifcation message*/)
-                .build();
-        notification.flags = Notification.DEFAULT_LIGHTS | Notification.FLAG_AUTO_CANCEL;
-        notificationManager.notify(1000/*some int*/, notification);
-    }
     public ArrayList<String> getPermisosNoAprobados(ArrayList<String> listaPermisos) {
         ArrayList<String> list = new ArrayList<String>();
         for (String permiso : listaPermisos) {
@@ -153,6 +124,59 @@ public class MainActivity2 extends AppCompatActivity {
         }
         return list;
     }
+
+
+    public void createNotification(String aMessage, Context context) {
+        final int NOTIFY_ID = 0; // ID of notification
+        String id = context.getString(R.string.default_notification_channel_id); // default_channel_id
+        String title = context.getString(R.string.default_notification_channel_title); // Default Channel
+        Intent intent;
+        PendingIntent pendingIntent;
+        NotificationCompat.Builder builder;
+        if (notifManager == null) {
+            notifManager = (NotificationManager)context.getSystemService(Context.NOTIFICATION_SERVICE);
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel mChannel = notifManager.getNotificationChannel(id);
+            if (mChannel == null) {
+                mChannel = new NotificationChannel(id, title, importance);
+                mChannel.enableVibration(true);
+                mChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
+                notifManager.createNotificationChannel(mChannel);
+            }
+            builder = new NotificationCompat.Builder(context, id);
+            intent = new Intent(context, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+            builder.setContentTitle(aMessage)                            // required
+                    .setSmallIcon(android.R.drawable.ic_popup_reminder)   // required
+                    .setContentText(context.getString(R.string.app_name)) // required
+                    .setDefaults(Notification.DEFAULT_ALL)
+                    .setAutoCancel(true)
+                    .setContentIntent(pendingIntent)
+                    .setTicker(aMessage)
+                    .setVibrate(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
+        }
+        else {
+            builder = new NotificationCompat.Builder(context, id);
+            intent = new Intent(context, MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
+            builder.setContentTitle(aMessage)                            // required
+                    .setSmallIcon(android.R.drawable.ic_popup_reminder)   // required
+                    .setContentText(context.getString(R.string.app_name)) // required
+                    .setDefaults(Notification.DEFAULT_ALL)
+                    .setAutoCancel(true)
+                    .setContentIntent(pendingIntent)
+                    .setTicker(aMessage)
+                    .setVibrate(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400})
+                    .setPriority(Notification.PRIORITY_HIGH);
+        }
+        Notification notification = builder.build();
+        notifManager.notify(NOTIFY_ID, notification);
+    }
+
     public void getPermission(ArrayList<String> permisosSolicitados) {
 
         ArrayList<String> listPermisosNOAprob = getPermisosNoAprobados(permisosSolicitados);
@@ -160,21 +184,6 @@ public class MainActivity2 extends AppCompatActivity {
             if (Build.VERSION.SDK_INT >= 23)
                 requestPermissions(listPermisosNOAprob.toArray(new String[listPermisosNOAprob.size()]), 1);
 
-    }
-    private void addNotification() {
-        NotificationCompat.Builder builder =
-                new NotificationCompat.Builder(this)
-                        .setContentTitle("Notifications Example")
-                        .setContentText("This is a test notification");
-
-        Intent notificationIntent = new Intent(this, MainActivity2.class);
-        PendingIntent contentIntent = PendingIntent.getActivity(this, 0, notificationIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT);
-        builder.setContentIntent(contentIntent);
-
-        // Add as notification
-        NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        manager.notify(0, builder.build());
     }
 
     @Override
@@ -225,16 +234,36 @@ public class MainActivity2 extends AppCompatActivity {
 
         PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
                 new Intent(this, MainActivity2.class), PendingIntent.FLAG_UPDATE_CURRENT);
+        /*
         NotificationCompat.Builder mBuilder =new NotificationCompat.Builder(getApplicationContext())
                 .setContentIntent(contentIntent)
+                .setSmallIcon(R.drawable.ic_stat_name)
                 .setContentTitle("Titulo")
                 .setContentText("Xavier equis de")
                 .setVibrate(new long[] {100, 250, 100, 500})
                 .setAutoCancel(true);
+
+         */
+        /*
+        mBuilder=  new NotificationCompat.Builder(this,"Canal1")
+                .setSmallIcon(R.drawable.ic_stat_name)
+                .setContentTitle("Tutlane Send New Message")
+                .setContentText("Hi, Welcome to tutlane tutorial site");
         NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
 
+         */
+
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(this,"Canal1")
+                        .setSmallIcon(R.drawable.ic_stat_name)
+                        .setContentTitle("My notification")
+                        .setContentText("Hello World!")
+                        .setChannelId("CHANNEL_ID");
+        NotificationManager mNotifyMgr =
+                (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        mNotifyMgr.notify(1, mBuilder.build());
         // notificationId is a unique int for each notification that you must define
-        notificationManager.notify(2, mBuilder.build());
+
 
     }
     class NotificacionThread implements Runnable{
