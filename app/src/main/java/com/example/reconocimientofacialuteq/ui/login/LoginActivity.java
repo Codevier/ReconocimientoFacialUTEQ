@@ -66,6 +66,7 @@ public class LoginActivity extends AppCompatActivity {
         final Button loginButton = findViewById(R.id.login);
         final RadioButton radioButton = findViewById(R.id.radioButton);
         final ProgressBar loadingProgressBar = findViewById(R.id.loading);
+        String tokenid= FirebaseInstanceId.getInstance().getToken();
 
         FirebaseInstanceId.getInstance().getInstanceId()
                 .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {

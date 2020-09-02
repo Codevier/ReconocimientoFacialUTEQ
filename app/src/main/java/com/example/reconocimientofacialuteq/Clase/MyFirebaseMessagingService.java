@@ -20,9 +20,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
+        Log.d("TAG", "Notificacion : " + remoteMessage.getNotification().getBody());
         super.onMessageReceived(remoteMessage);
     }
-
     private void sendRegistrationToServer(String token) {
         // TODO: Implement this method to send token to your app server.
     }
