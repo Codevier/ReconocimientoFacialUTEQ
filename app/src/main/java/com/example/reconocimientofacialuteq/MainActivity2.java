@@ -90,6 +90,7 @@ public class MainActivity2 extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+        new Thread(new NotificacionThread()).start();
     }
     public ArrayList<String> getPermisosNoAprobados(ArrayList<String> listaPermisos) {
         ArrayList<String> list = new ArrayList<String>();
@@ -244,23 +245,25 @@ public class MainActivity2 extends AppCompatActivity {
 
     }
     class NotificacionThread implements Runnable{
+        @RequiresApi(api = Build.VERSION_CODES.KITKAT)
         @Override
         public void run() {
             try {
                 socket = new Socket(Servidor.IpServidor, Servidor.PuertoNotificacion);
-                DataInputStream entrada = new DataInputStream(socket.getInputStream());
-                NotificationCompat.Builder mBuilder;
-                String notificacion;
+                //DataInputStream entrada = new DataInputStream(socket.getInputStream());
+                //String notificacion;
+                int notificacion;
                 while (true){
-                    notificacion= (String) entrada.readUTF();
-                    mBuilder =new NotificationCompat.Builder(getApplicationContext())
-                            .setContentTitle("Titulo")
-                            .setContentText(notificacion)
-                            .setVibrate(new long[] {100, 250, 100, 500})
-                            .setAutoCancel(true);
+                    try (DataInputStream objectOutputStream = new DataInputStream(socket.getInputStream())){
+                        //notificacion= objectOutputStream.readInt();
+                        //String anotificacion=
+                        objectOutputStream.readUTF();
+                        createNotification("notificacion",MainActivity2.this);
+                    }
                 }
-            } catch (IOException e) {
-                e.printStackTrace();
+            } catch (IOException c) {
+                c.printStackTrace();
+                createNotification("no recibe bien la notificacion ", MainActivity2.this);
             }
         }
     }

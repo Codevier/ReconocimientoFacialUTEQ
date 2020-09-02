@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "745504765869",
+    "firebase_url": "https://reconocimiento-facial-uteq.firebaseio.com",
+    "project_id": "reconocimiento-facial-uteq",
+    "storage_bucket": "reconocimiento-facial-uteq.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:745504765869:android:027bc93490221cd3a45324",
+        "android_client_info": {
+          "package_name": "com.example.reconocimientofacialuteq"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "745504765869-0043s0m77irlf3qmlk6ptv5ar20l3ire.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA1HvUWKqYsxQYx1goMjBigFHfNCRY2anU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "745504765869-0043s0m77irlf3qmlk6ptv5ar20l3ire.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
