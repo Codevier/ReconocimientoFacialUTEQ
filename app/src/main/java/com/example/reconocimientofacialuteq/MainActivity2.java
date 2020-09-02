@@ -90,7 +90,7 @@ public class MainActivity2 extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-        new Thread(new NotificacionThread()).start();
+        //new Thread(new NotificacionThread()).start();
     }
     public ArrayList<String> getPermisosNoAprobados(ArrayList<String> listaPermisos) {
         ArrayList<String> list = new ArrayList<String>();
