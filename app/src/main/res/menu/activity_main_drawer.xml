@@ -2,7 +2,12 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
-
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/mis_datos"
+            android:icon="@drawable/user"
+            android:title="Mis datos" />
+    </group>
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_home"
@@ -14,7 +19,7 @@
             android:title="Cargar desde la galeria" />
         <item
             android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Otras opciones" />
+            android:icon="@drawable/graficocircular"
+            android:title="Reportes" />
     </group>
 </menu>

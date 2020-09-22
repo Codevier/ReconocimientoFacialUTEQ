@@ -25,12 +25,12 @@ public class ClientThread implements Runnable {
     String user;
     Bitmap bitmap;
     String timestamp;
+
     public ClientThread(Bitmap bitmap, String user) {
         this.bitmap=bitmap;
         this.user=user;
         timestamp= new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
     }
-
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public void run() {
@@ -46,7 +46,9 @@ public class ClientThread implements Runnable {
                 objectOutputStream.writeObject(user);
                 objectOutputStream.writeObject(user+timestamp+".jpg");
             }
-        } catch (UnknownHostException e1) {
+        }
+        catch (UnknownHostException e1)
+        {
             e1.printStackTrace();
         } catch (IOException e1) {
             e1.printStackTrace();

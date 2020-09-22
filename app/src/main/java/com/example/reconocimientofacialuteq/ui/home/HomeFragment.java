@@ -94,7 +94,7 @@ public class HomeFragment extends Fragment {
         return root;
     }
     @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data ) {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == PHOTO_CONST && resultCode == Activity.RESULT_OK ){
             //SharedPreferences sharedPref = getActivity().getPreferences(Context.MODE_PRIVATE);

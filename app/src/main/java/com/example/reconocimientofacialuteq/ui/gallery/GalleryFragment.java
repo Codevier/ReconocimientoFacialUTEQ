@@ -69,7 +69,7 @@ public class GalleryFragment extends Fragment {
             }
         });
         imageView= (ImageView) root.findViewById(R.id.imageGaleria);
-        Notif=(Button) root.findViewById(R.id.butonNotificacion);
+        //Notif=(Button) root.findViewById(R.id.butonNotificacion);
         btnGaleria=(Button) root.findViewById(R.id.buttonGalllery);
         btnGaleria.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,12 +78,12 @@ public class GalleryFragment extends Fragment {
                 startActivityForResult(gallery, PICK_IMAGE);
             }
         });
-        Notif.setOnClickListener(new View.OnClickListener() {
+        /*Notif.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
             }
-        });
+        });*/
         return root;
     }
     @Override
@@ -91,7 +91,7 @@ public class GalleryFragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE && resultCode == Activity.RESULT_OK && data != null && data.getData() != null )
         {
-            String usuario = data.getExtras().getString("idUser");
+            String usuario ="1";// data.getExtras().getString("idUser");
 
             imageUri = data.getData();
             imageView.setImageURI(imageUri);
