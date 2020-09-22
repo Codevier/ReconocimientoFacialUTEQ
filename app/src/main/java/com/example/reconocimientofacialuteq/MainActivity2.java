@@ -23,6 +23,8 @@ import android.widget.TextView;
 
 import com.example.reconocimientofacialuteq.Clase.Servidor;
 import com.example.reconocimientofacialuteq.ui.login.LoginActivity;
+import com.example.reconocimientofacialuteq.ui.misdatos.MisDatos;
+import com.example.reconocimientofacialuteq.ui.misdatos.Mis_Datos;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
@@ -84,7 +86,7 @@ public class MainActivity2 extends AppCompatActivity {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow,R.id.mis_datos)
+                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow,R.id.nav_misdatos)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -187,6 +189,10 @@ public class MainActivity2 extends AppCompatActivity {
             startActivity(intent);
             finish();
             return true;
+        }
+        if(id==R.id.datos){
+            Intent intent = new Intent(MainActivity2.this, MisDatos.class);
+            startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }

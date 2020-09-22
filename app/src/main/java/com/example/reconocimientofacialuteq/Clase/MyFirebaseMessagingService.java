@@ -25,6 +25,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Log.d("TAG", "Notificacion : " + remoteMessage.getNotification().getBody());
         super.onMessageReceived(remoteMessage);
     }
+    
     private void sendRegistrationToServer(String token) {
         //DatabaseReference reference= FirebaseDatabase
         FirebaseDatabase database = FirebaseDatabase.getInstance();

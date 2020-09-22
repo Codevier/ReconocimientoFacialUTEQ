@@ -19,6 +19,7 @@
     <string name="menu_home">Tomar foto</string>
     <string name="menu_gallery">Cargar imagen</string>
     <string name="menu_slideshow">Reportes</string>
+    <string name="menu_misdatos">Mis Datos</string>
     <string name="default_notification_channel_id">1</string>
     <string name="default_notification_channel_title">Canal1</string>
     <string name="msg_token_fmt">1</string>

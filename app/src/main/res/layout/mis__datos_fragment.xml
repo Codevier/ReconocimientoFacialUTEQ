@@ -6,35 +6,5 @@
     android:layout_height="match_parent"
     tools:context=".ui.misdatos.Mis_Datos">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/profile_image"
-            android:layout_width="207dp"
-            android:layout_height="254dp"
-            android:src="@drawable/user"
-            android:layout_gravity="center"
-            android:layout_marginTop="40dp"
-            app:civ_border_color="#FF000000"
-            app:civ_border_width="2dp" />
-
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="15dp"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:id="@+id/nombre_us"
-            android:layout_height="49dp"></TextView>
-        <Space
-            android:layout_width="match_parent"
-            android:layout_height="15dp"/>
-        <TextView
-            android:layout_width="match_parent"
-            android:id="@+id/correo_us"
-            android:layout_height="49dp"></TextView>
-
-    </LinearLayout>
 
 </FrameLayout>
