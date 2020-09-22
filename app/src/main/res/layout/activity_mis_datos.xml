@@ -9,15 +9,30 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
+
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/profile_image"
-            android:layout_width="207dp"
-            android:layout_height="254dp"
-            android:src="@drawable/user"
+            android:layout_width="279dp"
+            android:layout_height="387dp"
             android:layout_gravity="center"
             android:layout_marginTop="40dp"
-            app:civ_border_color="#FF000000"
-            app:civ_border_width="2dp" />
+            android:src="@drawable/user"
+
+            />
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/cambiar_img"
+            android:layout_width="59dp"
+            android:layout_height="73dp"
+            android:layout_gravity="center"
+            android:layout_marginTop="-140dp"
+            android:layout_marginRight="-60dp"
+            android:src="@drawable/camera"
+            android:scaleType="centerCrop"
+
+
+
+            app:civ_circle_background_color="#222323" />
 
         <Space
             android:layout_width="match_parent"
@@ -25,14 +40,24 @@
         <TextView
             android:layout_width="match_parent"
             android:id="@+id/nombre_us"
+            android:text="NOMBRES"
+            android:textStyle="bold"
+            android:textSize="20dp"
+
+            android:textAlignment="center"
             android:layout_height="49dp"></TextView>
         <Space
             android:layout_width="match_parent"
             android:layout_height="15dp"/>
+
         <TextView
-            android:layout_width="match_parent"
             android:id="@+id/correo_us"
-            android:layout_height="49dp"></TextView>
+            android:layout_width="match_parent"
+            android:layout_height="49dp"
+            android:text="CORREO"
+            android:textAlignment="center"
+            android:textSize="20dp"
+            android:textStyle="bold"></TextView>
 
     </LinearLayout>
 

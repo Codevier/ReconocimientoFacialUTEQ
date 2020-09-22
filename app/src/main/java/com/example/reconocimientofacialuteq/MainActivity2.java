@@ -94,6 +94,7 @@ public class MainActivity2 extends AppCompatActivity {
         NavigationUI.setupWithNavController(navigationView, navController);
         //new Thread(new NotificacionThread()).start();
     }
+
     public ArrayList<String> getPermisosNoAprobados(ArrayList<String> listaPermisos) {
         ArrayList<String> list = new ArrayList<String>();
         for (String permiso : listaPermisos) {
@@ -273,4 +274,5 @@ public class MainActivity2 extends AppCompatActivity {
             }
         }
     }
+
 }
