@@ -5,11 +5,32 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingBottom="@dimen/activity_vertical_margin"
     tools:context=".ui.login.LoginActivity">
+
+    <ImageView
+        android:id="@+id/imageView4"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginTop="-10dp"
+        android:layout_marginBottom="28dp"
+        android:paddingTop="-3dp"
+        android:src="@mipmap/fondo"
+        app:layout_constraintBottom_toTopOf="@+id/password"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="219dp"
+        android:layout_height="225dp"
+        android:layout_marginBottom="150dp"
+        android:src="@drawable/ic_usuario"
+        app:layout_constraintBottom_toTopOf="@+id/username"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
         android:id="@+id/username"
@@ -18,51 +39,53 @@
         android:layout_marginStart="24dp"
         android:layout_marginTop="324dp"
         android:layout_marginEnd="24dp"
-        android:layout_marginBottom="71dp"
+        android:layout_marginBottom="1dp"
         android:hint="Usuario"
         android:inputType="textEmailAddress"
         android:selectAllOnFocus="true"
         app:layout_constraintBottom_toTopOf="@+id/radioButton"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.187"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="255dp"
+        android:layout_height="53dp"
         android:layout_gravity="start"
         android:layout_marginStart="48dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="48dp"
         android:layout_marginBottom="64dp"
+        android:background="@drawable/borde_redondeado"
         android:enabled="true"
         android:text="@string/action_sign_in"
+        android:textColor="@color/design_default_color_on_primary"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.44"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/password"
-        app:layout_constraintVertical_bias="0.362"
-        tools:text="Iniciar Sesion" />
+        app:layout_constraintVertical_bias="0.509"
+        tools:text="Iniciar Sesión" />
 
     <EditText
         android:id="@+id/password"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="24dp"
+        android:layout_marginBottom="186dp"
         android:hint="Contraseña"
         android:imeActionLabel="@string/action_sign_in_short"
         android:imeOptions="actionDone"
         android:inputType="textPassword"
         android:selectAllOnFocus="true"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.187"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/username" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView4" />
 
     <RadioButton
         android:id="@+id/radioButton"
@@ -72,10 +95,11 @@
         android:layout_marginLeft="44dp"
         android:layout_marginEnd="44dp"
         android:layout_marginRight="44dp"
-        android:layout_marginBottom="251dp"
+        android:layout_marginBottom="70dp"
         android:text="Guardar sesion"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.478"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/username" />
 
@@ -94,16 +118,6 @@
         app:layout_constraintStart_toStartOf="@+id/password"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.3" />
-
-    <ImageView
-        android:id="@+id/imageView2"
-        android:layout_width="219dp"
-        android:layout_height="225dp"
-        android:layout_marginBottom="40dp"
-        android:src="@drawable/login"
-        app:layout_constraintBottom_toTopOf="@+id/username"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

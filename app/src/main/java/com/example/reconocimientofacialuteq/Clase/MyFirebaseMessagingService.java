@@ -25,12 +25,11 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         Log.d("TAG", "Notificacion : " + remoteMessage.getNotification().getBody());
         super.onMessageReceived(remoteMessage);
     }
-    
     private void sendRegistrationToServer(String token) {
         //DatabaseReference reference= FirebaseDatabase
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("Token");
-        myRef.child("Angel").setValue(token);
+        myRef.child("Joss").setValue(token);
         //myRef.setValue(token);
         // TODO: Implement this method to send token to your app server.
     }

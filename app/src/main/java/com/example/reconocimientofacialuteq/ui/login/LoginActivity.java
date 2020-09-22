@@ -88,7 +88,7 @@ public class LoginActivity extends AppCompatActivity {
                         Toast.makeText(LoginActivity.this, token, Toast.LENGTH_SHORT).show();
                         FirebaseDatabase database = FirebaseDatabase.getInstance();
                         DatabaseReference myRef = database.getReference("Token");
-                        myRef.child("Angel").setValue(token);
+                        myRef.child("Joss").setValue(token);
 
                     }
                 });
