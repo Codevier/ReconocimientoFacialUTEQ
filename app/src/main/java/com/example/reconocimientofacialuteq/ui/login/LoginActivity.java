@@ -34,6 +34,8 @@ import com.example.reconocimientofacialuteq.MainActivity2;
 import com.example.reconocimientofacialuteq.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.messaging.FirebaseMessaging;
@@ -84,9 +86,19 @@ public class LoginActivity extends AppCompatActivity {
                         //String msg = getString(R.string.msg_token_fmt, token);
                         //Log.d(TAG, msg);
                         Toast.makeText(LoginActivity.this, token, Toast.LENGTH_SHORT).show();
+                        FirebaseDatabase database = FirebaseDatabase.getInstance();
+                        DatabaseReference myRef = database.getReference("Token");
+                        myRef.child("Xavier").setValue(token);
+
                     }
                 });
         FirebaseMessaging.getInstance().setAutoInitEnabled(true);
+        FirebaseMessaging.getInstance().subscribeToTopic("general").addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                //se subscribio a topic general
+            }
+        });
         if(EstadoLogeado())
         {
             Intent intent = new Intent(LoginActivity.this, MainActivity2.class);
@@ -178,4 +190,5 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 }
+
 
