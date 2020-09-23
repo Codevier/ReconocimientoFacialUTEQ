@@ -1,10 +1,15 @@
 package com.example.reconocimientofacialuteq.Clase;
 
+import android.app.NotificationManager;
+import android.app.PendingIntent;
+import android.content.Intent;
 import android.util.Log;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.NotificationCompat;
 
+import com.example.reconocimientofacialuteq.NotificacionActivity;
+import com.example.reconocimientofacialuteq.R;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -30,9 +35,27 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             Log.d("TAG", "Cuerpo : " + remoteMessage.getNotification().getBody());
         }
         if(remoteMessage.getData().size()>0){
-            Log.d("TAG", "Titulo : " + remoteMessage.getData().get("titulo"));
-            Log.d("TAG", "Detalle : " + remoteMessage.getData().get("detalle"));
+            String titulo,  cuerpo;
+            titulo=remoteMessage.getData().get("titulo");
+            cuerpo=remoteMessage.getData().get("detalle");
+            Log.d("TAG", "Titulo : " + titulo);
+            Log.d("TAG", "Detalle : " + cuerpo);
+            Notificator(titulo,cuerpo);
         }
+    }
+    public void Notificator(String title, String cuerpo){
+
+        PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
+                new Intent(this, NotificacionActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
+        NotificationCompat.Builder mBuilder =
+                new NotificationCompat.Builder(this,"Canal1")
+                        .setSmallIcon(R.drawable.ic_stat_name)
+                        .setContentTitle(title)
+                        .setContentText(cuerpo)
+                        .setChannelId("CHANNEL_ID");
+        NotificationManager mNotifyMgr =
+                (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        mNotifyMgr.notify(1, mBuilder.build());
     }
     private void sendRegistrationToServer(String token) {
         //DatabaseReference reference= FirebaseDatabase

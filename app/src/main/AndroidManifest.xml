@@ -19,7 +19,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.misdatos.MisDatos"></activity>
+        <activity android:name=".NotificacionActivity"></activity>
+        <activity android:name=".ui.misdatos.MisDatos" />
         <activity android:name=".Notificacion" />
         <activity
             android:name=".Pantalla_Inicio"
@@ -52,7 +53,7 @@
 
         <service
             android:name=".Clase.MyFirebaseMessagingService"
-            android:exported="false">
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
@@ -76,10 +77,10 @@
             android:resource="@array/preloaded_fonts" />
         <meta-data
             android:name="firebase_messaging_auto_init_enabled"
-            android:value="false" />
+            android:value="true" />
         <meta-data
             android:name="firebase_analytics_collection_enabled"
-            android:value="false" />
+            android:value="true" />
     </application>
 
 </manifest>
