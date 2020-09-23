@@ -16,7 +16,7 @@ public class NotificacionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notificacion2);
-        imageView= (ImageView) findViewById(R.id.imageNotification);
+        imageView= (ImageView) findViewById(R.id.imageNotification2);
         Bundle bundle = getIntent().getExtras();
         String uri= bundle.getString("img");
         //Bitmap bitmap=StringToBitMap(bitmapSstring);
