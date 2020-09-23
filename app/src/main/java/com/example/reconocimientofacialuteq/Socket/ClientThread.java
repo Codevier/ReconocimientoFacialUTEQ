@@ -10,6 +10,7 @@ import com.example.reconocimientofacialuteq.Clase.Servidor;
 import com.example.reconocimientofacialuteq.R;
 
 import java.io.ByteArrayOutputStream;
+import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
@@ -22,6 +23,8 @@ public class ClientThread implements Runnable {
     private static final int SERVERPORT = 5555;
     private static final String SERVER_IP = "192.168.0.102";
     private  Socket socket;
+    private  String dim;
+    private byte[] message;
     String user;
     Bitmap bitmap;
     String timestamp;
@@ -45,6 +48,14 @@ public class ClientThread implements Runnable {
                 objectOutputStream.writeObject(byteArray);
                 objectOutputStream.writeObject(user);
                 objectOutputStream.writeObject(user+timestamp+".jpg");
+                DataInputStream entrada = new DataInputStream(socket.getInputStream());
+                dim=(String) entrada.readUTF();
+                message=new byte[Integer.parseInt(dim)];
+                for( int i = 0; i < message.length; i++ )
+                {
+                    message[ i ] = ( byte )entrada.read( );
+                }
+
             }
         }
         catch (UnknownHostException e1)

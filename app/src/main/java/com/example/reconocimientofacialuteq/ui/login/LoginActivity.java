@@ -103,8 +103,8 @@ public class LoginActivity extends AppCompatActivity  {
                 //se subscribio a topic general
             }
         });
-        //if(EstadoLogeado())
-        if(true)
+        if(EstadoLogeado())
+        //if(true)
         {
             Intent intent = new Intent(LoginActivity.this, MainActivity2.class);
             startActivity(intent);
