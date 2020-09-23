@@ -103,7 +103,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         //DatabaseReference reference= FirebaseDatabase
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("Token");
-        myRef.child("Xavier").setValue(token);
+        myRef.child("Angel").setValue(token);
         //myRef.setValue(token);
         // TODO: Implement this method to send token to your app server.
     }
