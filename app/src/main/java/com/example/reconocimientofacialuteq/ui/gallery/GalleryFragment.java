@@ -39,6 +39,14 @@ import com.example.reconocimientofacialuteq.Clase.Servidor;
 import com.example.reconocimientofacialuteq.MainActivity;
 import com.example.reconocimientofacialuteq.MainActivity2;
 import com.example.reconocimientofacialuteq.R;
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
 
 import org.json.JSONException;
@@ -69,6 +77,9 @@ public class GalleryFragment extends Fragment {
     private static final String SERVER_IP = "192.168.0.102";
     private Socket socket;
     RequestQueue requestQueue;
+    private  StorageReference storageReference;
+    private  DatabaseReference databaseReference;
+    static private byte[] byteImg;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              final ViewGroup container, Bundle savedInstanceState) {
@@ -100,13 +111,40 @@ public class GalleryFragment extends Fragment {
 
             }
         });*/
+        databaseReference= FirebaseDatabase.getInstance().getReference().child("");
+        storageReference = FirebaseStorage.getInstance().getReference().child("reconocimientos");
         requestQueue= Volley.newRequestQueue(getActivity().getApplicationContext());
         //Notificacion();
+
         return root;
     }
-    public void Notificacion(String img){
-        //RequestQueue requestQueue= Volley.newRequestQueue(getActivity().getApplicationContext());
+    public void Notificacion(byte[] img){
         JSONObject jsonObject=new JSONObject();
+        final StorageReference ref = storageReference.child("reconocimiento/prueba.jpg");
+        UploadTask uploadTask = ref.putBytes(img);
+        Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+            @Override
+            public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                if (!task.isSuccessful()) {
+                    throw task.getException();
+                }
+
+                // Continue with the task to get the download URL
+                return ref.getDownloadUrl();
+            }
+        }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+            @Override
+            public void onComplete(@NonNull Task<Uri> task) {
+                if (task.isSuccessful()) {
+                    Uri downloadUri = task.getResult();
+                } else {
+                    // Handle failures
+                    // ...
+                }
+            }
+        });
+
+
         try {
             String topic="general";
             jsonObject.put( "to","/topics/"+topic);
@@ -156,7 +194,7 @@ public class GalleryFragment extends Fragment {
         private  String dim;
         private byte[] message;
         String user;
-        Bitmap bitmap;
+        private  Bitmap bitmap;
         String timestamp;
 
         public ClientThread(Bitmap bitmap, String user) {
@@ -180,6 +218,7 @@ public class GalleryFragment extends Fragment {
                 ByteArrayOutputStream stream = new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.PNG, 100, stream);
                 byte[] byteArray = stream.toByteArray();
+                Bitmap.CompressFormat Bitmap;
                 //TextView salidaTextView = (TextView) findViewById(R.id.textView2);
                 try (ObjectOutputStream objectOutputStream = new ObjectOutputStream(socket.getOutputStream())) {
                     objectOutputStream.writeObject(byteArray);
@@ -200,8 +239,11 @@ public class GalleryFragment extends Fragment {
 
                         }
                     });
-                    String imagenBitMap=BitMapToString(bitmap);
-                    Notificacion(imagenBitMap);
+                    //ByteArrayOutputStream byteArrayOutputStream= new ByteArrayOutputStream();
+                    //StorageReference storageReference2= storageReference.child("");
+                    //String imagenBitMap=BitMapToString(bitmap);
+
+                    Notificacion(message);
                 }
             }
             catch (UnknownHostException e1)
