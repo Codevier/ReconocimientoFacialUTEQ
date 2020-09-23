@@ -41,15 +41,17 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             Log.d("TAG", "Cuerpo : " + remoteMessage.getNotification().getBody());
         }
         if(remoteMessage.getData().size()>0){
-            String titulo,  cuerpo;
+            String titulo,  cuerpo, img;
             titulo=remoteMessage.getData().get("titulo");
             cuerpo=remoteMessage.getData().get("detalle");
+            img=remoteMessage.getData().get("img");
             Log.d("TAG", "Titulo : " + titulo);
             Log.d("TAG", "Detalle : " + cuerpo);
-            createNotification(titulo,getApplicationContext());
+            createNotification(titulo,cuerpo,img,getApplicationContext());
         }
     }
-    public void createNotification(String aMessage, Context context) {
+    public void createNotification(String titulo,String detalle,String img, Context context) {
+
         final int NOTIFY_ID = 0; // ID of notification
         String id = context.getString(R.string.default_notification_channel_id); // default_channel_id
         String title = context.getString(R.string.default_notification_channel_title); // Default Channel
@@ -69,30 +71,32 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 notifManager.createNotificationChannel(mChannel);
             }
             builder = new NotificationCompat.Builder(context, id);
-            intent = new Intent(context, MainActivity.class);
+            intent = new Intent(context, NotificacionActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            intent.putExtra("img",img);
             pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
-            builder.setContentTitle(aMessage)                            // required
+            builder.setContentTitle(titulo)                            // required
                     .setSmallIcon(android.R.drawable.ic_popup_reminder)   // required
-                    .setContentText(context.getString(R.string.app_name)) // required
+                    .setContentText(detalle) // required
                     .setDefaults(Notification.DEFAULT_ALL)
                     .setAutoCancel(true)
                     .setContentIntent(pendingIntent)
-                    .setTicker(aMessage)
+                    .setTicker(titulo)
                     .setVibrate(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
         }
         else {
             builder = new NotificationCompat.Builder(context, id);
             intent = new Intent(context, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+            intent.putExtra("img",img);
             pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
-            builder.setContentTitle(aMessage)                            // required
+            builder.setContentTitle(titulo)                            // required
                     .setSmallIcon(android.R.drawable.ic_popup_reminder)   // required
-                    .setContentText(context.getString(R.string.app_name)) // required
+                    .setContentText(detalle) // required
                     .setDefaults(Notification.DEFAULT_ALL)
                     .setAutoCancel(true)
                     .setContentIntent(pendingIntent)
-                    .setTicker(aMessage)
+                    .setTicker(titulo)
                     .setVibrate(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400})
                     .setPriority(Notification.PRIORITY_HIGH);
         }

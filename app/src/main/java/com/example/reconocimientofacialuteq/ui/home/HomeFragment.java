@@ -105,7 +105,7 @@ public class HomeFragment extends Fragment {
             }
         });
         requestQueue= Volley.newRequestQueue(getActivity().getApplicationContext());
-        Notificacion();
+        //Notificacion();
         return root;
     }
     public void Notificacion(){

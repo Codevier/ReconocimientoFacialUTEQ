@@ -13,6 +13,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,11 +30,19 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.reconocimientofacialuteq.Clase.Servidor;
 import com.example.reconocimientofacialuteq.MainActivity;
 import com.example.reconocimientofacialuteq.MainActivity2;
 import com.example.reconocimientofacialuteq.R;
 
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
@@ -44,6 +53,8 @@ import java.net.Socket;
 import java.net.UnknownHostException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class GalleryFragment extends Fragment {
 
@@ -57,6 +68,7 @@ public class GalleryFragment extends Fragment {
     private static final int SERVERPORT = 5555;
     private static final String SERVER_IP = "192.168.0.102";
     private Socket socket;
+    RequestQueue requestQueue;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              final ViewGroup container, Bundle savedInstanceState) {
@@ -88,7 +100,36 @@ public class GalleryFragment extends Fragment {
 
             }
         });*/
+        requestQueue= Volley.newRequestQueue(getActivity().getApplicationContext());
+        //Notificacion();
         return root;
+    }
+    public void Notificacion(String img){
+        //RequestQueue requestQueue= Volley.newRequestQueue(getActivity().getApplicationContext());
+        JSONObject jsonObject=new JSONObject();
+        try {
+            String topic="general";
+            jsonObject.put( "to","/topics/"+topic);
+            JSONObject notificacion = new JSONObject();
+            notificacion.put("titulo","Alerta");
+            notificacion.put("detalle","Persona no identificada");
+            notificacion.put("img",img);
+            jsonObject.put("data",notificacion);
+            String URL="https://fcm.googleapis.com/fcm/send";
+            JsonObjectRequest jsonObjectRequest= new JsonObjectRequest(Request.Method.POST,URL,jsonObject,null,null){
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String,String> header= new HashMap<>();
+                    header.put("content-type","application/json");
+                    header.put("authorization","key=AAAArZOL960:APA91bFPOOGosYRGBmclbjJJfBwFnij04ZKg5enyUuGVr2zrEh2s1V3d7qwXno2PE_PgiS-oM16FH2X0NKZsSv-OafCkCx-v4jhmOv9WJ4r8pJhWV1pOLgLu5GwO8z2DBt_yBaQy9N0P");
+                    return  header;
+                }
+            };
+            requestQueue.add(jsonObjectRequest);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -123,6 +164,13 @@ public class GalleryFragment extends Fragment {
             this.user=user;
             timestamp= new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         }
+        public String BitMapToString(Bitmap bitmap){
+            ByteArrayOutputStream baos=new  ByteArrayOutputStream();
+            bitmap.compress(Bitmap.CompressFormat.PNG,100, baos);
+            byte [] b=baos.toByteArray();
+            String temp= Base64.encodeToString(b, Base64.DEFAULT);
+            return temp;
+        }
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
         @Override
         public void run() {
@@ -145,18 +193,15 @@ public class GalleryFragment extends Fragment {
                         message[ i ] = ( byte )entrada.read( );
                     }
                     bitmap = BitmapFactory.decodeByteArray(message, 0, message.length);
-
-                             //TextView imageDetail = (TextView)findViewById(R.id.txtResult);
-                            //imageDetail.setText(text.getText());
                     getActivity().runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             imageView.setImageBitmap(bitmap);
+
                         }
                     });
-
-
-
+                    String imagenBitMap=BitMapToString(bitmap);
+                    Notificacion(imagenBitMap);
                 }
             }
             catch (UnknownHostException e1)
