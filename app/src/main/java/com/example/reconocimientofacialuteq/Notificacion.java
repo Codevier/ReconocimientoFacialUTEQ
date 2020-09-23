@@ -11,8 +11,8 @@ public class Notificacion extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notificacion);
-        TextView textView =findViewById(R.id.textviNOT);
+       /* TextView textView =findViewById(R.id.textviNOT);
         String message= getIntent().getStringExtra("message");
-        textView.setText(message);
+        textView.setText(message);*/
     }
 }

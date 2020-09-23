@@ -5,23 +5,53 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Notificacion">
+    <ImageView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:src="@drawable/fondo_new1"
+    android:foregroundGravity="bottom"
+    android:layout_marginTop="-1dp"
+    android:id="@+id/fondo_superior"
+
+    ></ImageView>
+
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/textviNOT"
-        android:textSize="25dp"
-        android:gravity="center"></TextView>
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/fondo_superior"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="0dp"
+        android:fontFamily="@font/adamina"
+
+        android:foregroundGravity="center"
+        android:gravity="center"
+        android:text="Resultado del reconocimiento"
+        android:textSize="24sp"
+        android:textStyle="bold" />
 
     <ImageView
-        android:id="@+id/imageNotification"
-        android:layout_width="320dp"
-        android:layout_height="564dp"
+        android:layout_width="500dp"
+        android:layout_height="500dp"
         android:layout_alignParentStart="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="53dp"
-        android:layout_marginLeft="53dp"
-        android:layout_marginTop="42dp"
-        tools:srcCompat="@tools:sample/avatars" />
+        android:layout_alignParentEnd="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="5dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="143dp"
+        android:layout_marginEnd="-2dp"
+        android:foregroundGravity="center_vertical"
+        android:src="@drawable/ic_usuario_2"
+        android:layout_marginRight="-2dp"
+        android:layout_alignParentRight="true" />
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:src="@drawable/ic_fondo_new"
+        android:foregroundGravity="bottom"
+        android:layout_marginTop="640dp"
+
+    ></ImageView>
 </RelativeLayout>
