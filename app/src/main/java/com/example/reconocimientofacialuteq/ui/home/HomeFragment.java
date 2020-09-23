@@ -199,7 +199,6 @@ public class HomeFragment extends Fragment {
     }
 
     private File createphoto() {
-        String timestamp= new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         String filename= "imagen_";
         File photo=null;
         File storage= getActivity().getExternalFilesDir(Environment.DIRECTORY_DOWNLOADS);
