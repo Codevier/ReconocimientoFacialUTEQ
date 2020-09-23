@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
+import android.os.Bundle;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -47,6 +48,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             img=remoteMessage.getData().get("img");
             Log.d("TAG", "Titulo : " + titulo);
             Log.d("TAG", "Detalle : " + cuerpo);
+            Log.d("TAG", "Imgen : " + img);
             createNotification(titulo,cuerpo,img,getApplicationContext());
         }
     }
@@ -73,7 +75,9 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
             builder = new NotificationCompat.Builder(context, id);
             intent = new Intent(context, NotificacionActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            intent.putExtra("img",img);
+            Bundle noBundle = new Bundle();
+            noBundle.putString("img",img);
+            intent.putExtras(noBundle);
             pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
             builder.setContentTitle(titulo)                            // required
                     .setSmallIcon(android.R.drawable.ic_popup_reminder)   // required
@@ -86,9 +90,12 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
         else {
             builder = new NotificationCompat.Builder(context, id);
-            intent = new Intent(context, MainActivity.class);
+            intent = new Intent(context, NotificacionActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-            intent.putExtra("img",img);
+            Bundle noBundle = new Bundle();
+            noBundle.putString("img",img);
+            intent.putExtras(noBundle);
+            intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
             pendingIntent = PendingIntent.getActivity(context, 0, intent, 0);
             builder.setContentTitle(titulo)                            // required
                     .setSmallIcon(android.R.drawable.ic_popup_reminder)   // required
@@ -112,3 +119,4 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         // TODO: Implement this method to send token to your app server.
     }
 }
+
