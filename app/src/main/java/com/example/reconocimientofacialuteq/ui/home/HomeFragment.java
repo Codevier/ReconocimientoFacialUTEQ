@@ -28,16 +28,26 @@ import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.reconocimientofacialuteq.MainActivity;
 import com.example.reconocimientofacialuteq.R;
 import com.example.reconocimientofacialuteq.Socket.ClientThread;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Locale;
+import java.util.Map;
 
 public class HomeFragment extends Fragment {
 
@@ -51,6 +61,7 @@ public class HomeFragment extends Fragment {
     private static final int PHOTO_CONST =1 ;
     private static Bitmap imageBitmap;
     View root;
+    RequestQueue requestQueue;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -84,6 +95,8 @@ public class HomeFragment extends Fragment {
                     }
                 }
             }
+
+
         });
         homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
@@ -91,7 +104,35 @@ public class HomeFragment extends Fragment {
                 //textView.setText(s);
             }
         });
+        requestQueue= Volley.newRequestQueue(getActivity().getApplicationContext());
+        Notificacion();
         return root;
+    }
+    public void Notificacion(){
+        //RequestQueue requestQueue= Volley.newRequestQueue(getActivity().getApplicationContext());
+        JSONObject jsonObject=new JSONObject();
+        try {
+            String topic="general";
+            jsonObject.put( "to","/topics/"+topic);
+            JSONObject notificacion = new JSONObject();
+            notificacion.put("titulo","soy el titulo");
+            notificacion.put("detalle","soy el detalle");
+            jsonObject.put("data",notificacion);
+            String URL="https://fcm.googleapis.com/fcm/send";
+            JsonObjectRequest jsonObjectRequest= new JsonObjectRequest(Request.Method.POST,URL,jsonObject,null,null){
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String,String> header= new HashMap<>();
+                    header.put("content-type","application/json");
+                    header.put("authorization","key=AAAArZOL960:APA91bFPOOGosYRGBmclbjJJfBwFnij04ZKg5enyUuGVr2zrEh2s1V3d7qwXno2PE_PgiS-oM16FH2X0NKZsSv-OafCkCx-v4jhmOv9WJ4r8pJhWV1pOLgLu5GwO8z2DBt_yBaQy9N0P");
+                    return  header;
+                }
+            };
+            requestQueue.add(jsonObjectRequest);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data ) {

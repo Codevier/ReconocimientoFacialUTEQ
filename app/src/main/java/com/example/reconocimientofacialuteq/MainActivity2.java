@@ -21,6 +21,11 @@ import android.view.Menu;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.reconocimientofacialuteq.Clase.Servidor;
 import com.example.reconocimientofacialuteq.ui.login.LoginActivity;
 import com.example.reconocimientofacialuteq.ui.misdatos.MisDatos;
@@ -29,6 +34,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.navigation.NavigationView;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -41,6 +47,9 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
@@ -49,6 +58,8 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainActivity2 extends AppCompatActivity {
 
@@ -78,9 +89,13 @@ public class MainActivity2 extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                //Notificacion();
+                /*
                 createNotification("hola",MainActivity2.this);
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
+
+                 */
             }
         });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
@@ -92,6 +107,11 @@ public class MainActivity2 extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+        //Notificacion();
+
+
+
+
         //new Thread(new NotificacionThread()).start();
     }
 
@@ -197,6 +217,37 @@ public class MainActivity2 extends AppCompatActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
+
+
+    public void Notificacion(){
+        RequestQueue requestQueue= Volley.newRequestQueue(getApplicationContext());
+        JSONObject jsonObject=new JSONObject();
+        try {
+            String topic="general";
+            jsonObject.put( "to","/topics/"+topic);
+            JSONObject notificacion = new JSONObject();
+            notificacion.put("titulo","soy el titulo");
+            notificacion.put("detalle","soy el detalle");
+            jsonObject.put("data",notificacion);
+            String URL="https://fcm.googleapis.com/fcm/send";
+            JsonObjectRequest jsonObjectRequest= new JsonObjectRequest(Request.Method.POST,URL,jsonObject,null,null){
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String,String> header= new HashMap<>();
+                    header.put("content-type","application/json");
+                    header.put("authorization","key=AAAArZOL960:APA91bFPOOGosYRGBmclbjJJfBwFnij04ZKg5enyUuGVr2zrEh2s1V3d7qwXno2PE_PgiS-oM16FH2X0NKZsSv-OafCkCx-v4jhmOv9WJ4r8pJhWV1pOLgLu5GwO8z2DBt_yBaQy9N0P");
+                    return  header;
+                }
+            };
+            requestQueue.add(jsonObjectRequest);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+
 
     @Override
     public boolean onSupportNavigateUp() {

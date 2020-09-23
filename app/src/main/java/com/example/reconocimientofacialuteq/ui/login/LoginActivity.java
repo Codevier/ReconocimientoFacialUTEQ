@@ -7,6 +7,7 @@ import androidx.annotation.RequiresApi;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
+import android.app.Application;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -29,6 +30,11 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.reconocimientofacialuteq.Clase.Servidor;
 import com.example.reconocimientofacialuteq.MainActivity2;
 import com.example.reconocimientofacialuteq.R;
@@ -40,13 +46,18 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.messaging.FirebaseMessaging;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.HashMap;
+import java.util.Map;
 
-public class LoginActivity extends AppCompatActivity {
+public class LoginActivity extends AppCompatActivity  {
 
     private static final String IP = "192.168.0.102"; // Puedes cambiar a localhost
     private static final int PUERTO = 1100;
@@ -62,14 +73,13 @@ public class LoginActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
         final EditText usernameEditText = findViewById(R.id.username);
         final EditText passwordEditText = findViewById(R.id.password);
         final Button loginButton = findViewById(R.id.login);
         final RadioButton radioButton = findViewById(R.id.radioButton);
         final ProgressBar loadingProgressBar = findViewById(R.id.loading);
         String tokenid= FirebaseInstanceId.getInstance().getToken();
-
+        //Notificacion();
         FirebaseInstanceId.getInstance().getInstanceId()
                 .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
                     @Override
@@ -78,18 +88,12 @@ public class LoginActivity extends AppCompatActivity {
                             //Log.w(TAG, "getInstanceId failed", task.getException());
                             return;
                         }
-
                         // Get new Instance ID token
                         String token = task.getResult().getToken();
-
-                        // Log and toast
-                        //String msg = getString(R.string.msg_token_fmt, token);
-                        //Log.d(TAG, msg);
                         Toast.makeText(LoginActivity.this, token, Toast.LENGTH_SHORT).show();
                         FirebaseDatabase database = FirebaseDatabase.getInstance();
                         DatabaseReference myRef = database.getReference("Token");
-                        myRef.child("Joss").setValue(token);
-
+                        myRef.child("Xavier").setValue(token);
                     }
                 });
         FirebaseMessaging.getInstance().setAutoInitEnabled(true);
@@ -99,7 +103,8 @@ public class LoginActivity extends AppCompatActivity {
                 //se subscribio a topic general
             }
         });
-        if(EstadoLogeado())
+        //if(EstadoLogeado())
+        if(true)
         {
             Intent intent = new Intent(LoginActivity.this, MainActivity2.class);
             startActivity(intent);
@@ -144,6 +149,32 @@ public class LoginActivity extends AppCompatActivity {
         return sharedPreferences2.getBoolean("Logeado",false);
     }
 
+    public void Notificacion(){
+        RequestQueue requestQueue= Volley.newRequestQueue(getApplicationContext());
+        JSONObject jsonObject=new JSONObject();
+        try {
+            String topic="general";
+            jsonObject.put( "to","/topics/"+topic);
+            JSONObject notificacion = new JSONObject();
+            notificacion.put("titulo","soy el titulo");
+            notificacion.put("detalle","soy el detalle");
+            jsonObject.put("data",notificacion);
+            String URL="https://fcm.googleapis.com/fcm/send";
+            JsonObjectRequest jsonObjectRequest= new JsonObjectRequest(Request.Method.POST,URL,jsonObject,null,null){
+                @Override
+                public Map<String, String> getHeaders() throws AuthFailureError {
+                    Map<String,String> header= new HashMap<>();
+                    header.put("content-type","application/json");
+                    header.put("authorization","key=AAAArZOL960:APA91bFPOOGosYRGBmclbjJJfBwFnij04ZKg5enyUuGVr2zrEh2s1V3d7qwXno2PE_PgiS-oM16FH2X0NKZsSv-OafCkCx-v4jhmOv9WJ4r8pJhWV1pOLgLu5GwO8z2DBt_yBaQy9N0P");
+                    return  header;
+                }
+            };
+            requestQueue.add(jsonObjectRequest);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
     class ClientThreadLog implements Runnable {
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
         @Override

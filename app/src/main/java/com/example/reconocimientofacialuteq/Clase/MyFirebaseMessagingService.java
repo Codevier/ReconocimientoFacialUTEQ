@@ -1,6 +1,7 @@
 package com.example.reconocimientofacialuteq.Clase;
 
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -22,14 +23,18 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
 
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
-        Log.d("TAG", "Notificacion : " + remoteMessage.getNotification().getBody());
         super.onMessageReceived(remoteMessage);
+        Log.d("TAG", "Notificacion : " + remoteMessage.getFrom());
+        if(remoteMessage.getNotification()!=null) {
+            Log.d("TAG", "Titulo : " + remoteMessage.getNotification().getTitle());
+            Log.d("TAG", "Cuerpo : " + remoteMessage.getNotification().getBody());
+        }
     }
     private void sendRegistrationToServer(String token) {
         //DatabaseReference reference= FirebaseDatabase
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         DatabaseReference myRef = database.getReference("Token");
-        myRef.child("Joss").setValue(token);
+        myRef.child("Xavier").setValue(token);
         //myRef.setValue(token);
         // TODO: Implement this method to send token to your app server.
     }
