@@ -21,7 +21,7 @@ public class NotificacionActivity extends AppCompatActivity {
         String uri= bundle.getString("img");
         //Bitmap bitmap=StringToBitMap(bitmapSstring);
         //imageView.setImageBitmap(bitmap);
-        imageView.setImageURI(Uri.parse(uri));
+        //imageView.setImageURI(Uri.parse(uri));
     }
     public Bitmap StringToBitMap(String encodedString){
         try {

@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 
 import com.example.reconocimientofacialuteq.MainActivity;
+import com.example.reconocimientofacialuteq.Notificacion;
 import com.example.reconocimientofacialuteq.NotificacionActivity;
 import com.example.reconocimientofacialuteq.R;
 import com.google.firebase.database.DatabaseReference;
@@ -73,7 +74,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 notifManager.createNotificationChannel(mChannel);
             }
             builder = new NotificationCompat.Builder(context, id);
-            intent = new Intent(context, NotificacionActivity.class);
+            intent = new Intent(context, Notificacion.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             Bundle noBundle = new Bundle();
             noBundle.putString("img",img);
@@ -90,7 +91,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
         else {
             builder = new NotificationCompat.Builder(context, id);
-            intent = new Intent(context, NotificacionActivity.class);
+            intent = new Intent(context, Notificacion.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             Bundle noBundle = new Bundle();
             noBundle.putString("img",img);
