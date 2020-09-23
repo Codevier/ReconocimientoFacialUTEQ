@@ -71,7 +71,7 @@ public class GalleryFragment extends Fragment {
     ImageView imageView;
     Uri imageUri;
     private static Bitmap imageBitmap;
-    Button btnGaleria;
+    Button btnGaleria,btnNotificar;
     Button Notif;
     private static final int SERVERPORT = 5555;
     private static final String SERVER_IP = "192.168.0.102";
@@ -80,6 +80,7 @@ public class GalleryFragment extends Fragment {
     private  StorageReference storageReference;
     private  DatabaseReference databaseReference;
     static private byte[] byteImg;
+    static private Uri downloadUri;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              final ViewGroup container, Bundle savedInstanceState) {
@@ -98,11 +99,41 @@ public class GalleryFragment extends Fragment {
         imageView= (ImageView) root.findViewById(R.id.imageGaleria);
         //Notif=(Button) root.findViewById(R.id.butonNotificacion);
         btnGaleria=(Button) root.findViewById(R.id.buttonGalllery);
+        btnNotificar=(Button) root.findViewById(R.id.btnNotificar);
         btnGaleria.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
                 startActivityForResult(gallery, PICK_IMAGE);
+            }
+        });
+        btnNotificar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    JSONObject jsonObject=new JSONObject();
+                    String topic="general";
+                    jsonObject.put( "to","/topics/"+topic);
+                    JSONObject notificacion = new JSONObject();
+                    notificacion.put("titulo","Alerta");
+                    notificacion.put("detalle","Persona no identificada");
+                    notificacion.put("img",downloadUri.toString());
+                    jsonObject.put("data",notificacion);
+                    String URL="https://fcm.googleapis.com/fcm/send";
+                    JsonObjectRequest jsonObjectRequest= new JsonObjectRequest(Request.Method.POST,URL,jsonObject,null,null){
+                        @Override
+                        public Map<String, String> getHeaders() throws AuthFailureError {
+                            Map<String,String> header= new HashMap<>();
+                            header.put("content-type","application/json");
+                            header.put("authorization","key=AAAArZOL960:APA91bFPOOGosYRGBmclbjJJfBwFnij04ZKg5enyUuGVr2zrEh2s1V3d7qwXno2PE_PgiS-oM16FH2X0NKZsSv-OafCkCx-v4jhmOv9WJ4r8pJhWV1pOLgLu5GwO8z2DBt_yBaQy9N0P");
+                            return  header;
+                        }
+                    };
+                    requestQueue.add(jsonObjectRequest);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
             }
         });
         /*Notif.setOnClickListener(new View.OnClickListener() {
@@ -119,7 +150,6 @@ public class GalleryFragment extends Fragment {
         return root;
     }
     public void Notificacion(byte[] img){
-        JSONObject jsonObject=new JSONObject();
         final StorageReference ref = storageReference.child("reconocimiento/prueba.jpg");
         UploadTask uploadTask = ref.putBytes(img);
         Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
@@ -128,7 +158,6 @@ public class GalleryFragment extends Fragment {
                 if (!task.isSuccessful()) {
                     throw task.getException();
                 }
-
                 // Continue with the task to get the download URL
                 return ref.getDownloadUrl();
             }
@@ -136,38 +165,14 @@ public class GalleryFragment extends Fragment {
             @Override
             public void onComplete(@NonNull Task<Uri> task) {
                 if (task.isSuccessful()) {
-                    Uri downloadUri = task.getResult();
+                    Toast.makeText(getActivity(),"Se subio a firebase la imagen",Toast.LENGTH_SHORT).show();
+                    downloadUri= task.getResult();
                 } else {
                     // Handle failures
                     // ...
                 }
             }
         });
-
-
-        try {
-            String topic="general";
-            jsonObject.put( "to","/topics/"+topic);
-            JSONObject notificacion = new JSONObject();
-            notificacion.put("titulo","Alerta");
-            notificacion.put("detalle","Persona no identificada");
-            notificacion.put("img",img);
-            jsonObject.put("data",notificacion);
-            String URL="https://fcm.googleapis.com/fcm/send";
-            JsonObjectRequest jsonObjectRequest= new JsonObjectRequest(Request.Method.POST,URL,jsonObject,null,null){
-                @Override
-                public Map<String, String> getHeaders() throws AuthFailureError {
-                    Map<String,String> header= new HashMap<>();
-                    header.put("content-type","application/json");
-                    header.put("authorization","key=AAAArZOL960:APA91bFPOOGosYRGBmclbjJJfBwFnij04ZKg5enyUuGVr2zrEh2s1V3d7qwXno2PE_PgiS-oM16FH2X0NKZsSv-OafCkCx-v4jhmOv9WJ4r8pJhWV1pOLgLu5GwO8z2DBt_yBaQy9N0P");
-                    return  header;
-                }
-            };
-            requestQueue.add(jsonObjectRequest);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
     }
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

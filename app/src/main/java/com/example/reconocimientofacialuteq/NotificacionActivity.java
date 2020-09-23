@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Base64;
 import android.widget.ImageView;
@@ -17,9 +18,10 @@ public class NotificacionActivity extends AppCompatActivity {
         setContentView(R.layout.activity_notificacion2);
         imageView= (ImageView) findViewById(R.id.imageNotification);
         Bundle bundle = getIntent().getExtras();
-        String bitmapSstring= bundle.getString("img");
-        Bitmap bitmap=StringToBitMap(bitmapSstring);
-        imageView.setImageBitmap(bitmap);
+        String uri= bundle.getString("img");
+        //Bitmap bitmap=StringToBitMap(bitmapSstring);
+        //imageView.setImageBitmap(bitmap);
+        imageView.setImageURI(Uri.parse(uri));
     }
     public Bitmap StringToBitMap(String encodedString){
         try {
