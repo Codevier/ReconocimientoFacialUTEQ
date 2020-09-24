@@ -9,48 +9,50 @@
     <ImageView
         android:id="@+id/imageGaleria"
         android:layout_width="353dp"
-        android:layout_height="508dp"
+        android:layout_height="0dp"
         android:layout_marginStart="68dp"
         android:layout_marginLeft="68dp"
-        android:layout_marginTop="149dp"
+        android:layout_marginTop="84dp"
         android:layout_marginEnd="68dp"
         android:layout_marginRight="68dp"
-        android:layout_marginBottom="227dp"
+        android:layout_marginBottom="51dp"
+        android:background="@drawable/borde_redondeado_image"
         android:scaleType="fitCenter"
         android:src="@drawable/logo"
-        app:layout_constraintBottom_toTopOf="@+id/buttonGalllery"
+        app:layout_constraintBottom_toTopOf="@+id/btnNotificar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.268"
-        android:background="@drawable/borde_redondeado_image"/>
+        app:layout_constraintVertical_bias="0.268" />
 
     <Button
         android:id="@+id/btnNotificar"
-        android:layout_width="183dp"
-        android:layout_height="49dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginRight="16dp"
+        android:layout_width="168dp"
+        android:layout_height="52dp"
+        android:layout_marginEnd="28dp"
+        android:layout_marginRight="28dp"
+        android:layout_marginBottom="39dp"
         android:background="@drawable/borde_redondeado_c"
         android:text="Notificar"
         android:textColor="#ffff"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteY="643dp" />
+        app:layout_constraintTop_toBottomOf="@+id/imageGaleria"
+        tools:ignore="MissingConstraints" />
 
     <Button
         android:id="@+id/buttonGalllery"
-        android:layout_width="183dp"
+        android:layout_width="168dp"
         android:layout_height="52dp"
         android:background="@drawable/borde_redondeado_c"
         android:text="Cargar imagen"
         android:textColor="#ffff"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.092"
+        app:layout_constraintHorizontal_bias="0.119"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.946" />
+        app:layout_constraintVertical_bias="0.942" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
