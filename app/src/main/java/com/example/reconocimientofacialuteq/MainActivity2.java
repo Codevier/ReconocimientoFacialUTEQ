@@ -83,12 +83,12 @@ public class MainActivity2 extends AppCompatActivity {
         permisos.add(Manifest.permission.WRITE_CALENDAR);
         getPermission(permisos);
         setSupportActionBar(toolbar);
-        final FloatingActionButton fab = findViewById(R.id.fab);
+
         //imageView = (ImageView) findViewById(R.id.imageGaleria);
         //notificationManagerCompat = NotificationManagerCompat.from(this);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        //fab.setOnClickListener(new View.OnClickListener() {
+           // @Override
+            //public void onClick(View view) {
                 //Notificacion();
                 /*
                 createNotification("hola",MainActivity2.this);
@@ -96,12 +96,12 @@ public class MainActivity2 extends AppCompatActivity {
                         .setAction("Action", null).show();
 
                  */
-            }
-        });
+        //    }
+        //});
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_gallery, R.id.nav_slideshow,R.id.nav_misdatos)
+                R.id.nav_home, R.id.nav_gallery )
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);

@@ -33,6 +33,7 @@ public class Notificacion extends AppCompatActivity {
         Picasso.with(this)
                 .load(uri)
                 .into(imageView);
+        progDailog.dismiss();
         //imageView.setImageURI(Uri.parse(uri));
        /* TextView textView =findViewById(R.id.textviNOT);
         String message= getIntent().getStringExtra("message");
