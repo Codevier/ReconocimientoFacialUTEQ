@@ -82,6 +82,7 @@ public class MisDatos extends AppCompatActivity {
         progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
         progDailog.setCancelable(true);
         progDailog.show();
+
         cargarf=  findViewById(R.id.cargarFoto);
 
         new Thread(new MisDatos.ClientThreadLog()).start();
@@ -94,7 +95,7 @@ public class MisDatos extends AppCompatActivity {
             }
         });
     }
-    public void cargarFoto(){
+    public void cargarFoto(View view){
         Intent gallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI);
         startActivityForResult(gallery, PICK_IMAGE);
     }
@@ -108,9 +109,10 @@ public class MisDatos extends AppCompatActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
         return photo;
     }
-    public void tomarFoto(){
+    public void tomarFoto(View view){
         Intent i;
         i=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         if(i.resolveActivity(this.getPackageManager())!=null){
@@ -144,12 +146,14 @@ public class MisDatos extends AppCompatActivity {
 
             imageUri = data.getData();
             img.setImageURI(imageUri);
+            dg.dismiss();
+            Toast.makeText(this, "Imagen cargada de galeria", Toast.LENGTH_SHORT).show();
             try {
                 imageBitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(),imageUri);
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            Toast.makeText(this, "Imagen cargada de galeria", Toast.LENGTH_SHORT).show();
+
         }
 
         if(requestCode == PHOTO_CONST && resultCode == Activity.RESULT_OK ){
@@ -167,6 +171,8 @@ public class MisDatos extends AppCompatActivity {
             Matrix matrix = new Matrix();
             matrix.postRotate(270);
             imageBitmap= Bitmap.createBitmap(imageBitmap, 0, 0, imageBitmap.getWidth(), imageBitmap.getHeight(), matrix, true);
+            dg.dismiss();
+            Toast.makeText(this, "Imagen cargada de galeria", Toast.LENGTH_SHORT).show();
         }
 
         }
@@ -243,6 +249,7 @@ public class MisDatos extends AppCompatActivity {
                             //TextView imageDetail = (TextView)findViewById(R.id.txtResult);
                             //imageDetail.setText(text.getText());
                             img.setImageBitmap(bitmap);
+                            progDailog.dismiss();
                         }
                     });
                 }
