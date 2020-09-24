@@ -68,6 +68,7 @@ public class GalleryFragment extends Fragment {
 
     private GalleryViewModel galleryViewModel;
     private static final int PICK_IMAGE = 100;
+    String timestamp;
     ImageView imageView;
     Uri imageUri;
     private static Bitmap imageBitmap;
@@ -78,6 +79,7 @@ public class GalleryFragment extends Fragment {
     private Socket socket;
     RequestQueue requestQueue;
     private  StorageReference storageReference;
+    String nombre_imagen;
     private  DatabaseReference databaseReference;
     static private byte[] byteImg;
     static private Uri downloadUri;
@@ -150,7 +152,7 @@ public class GalleryFragment extends Fragment {
         return root;
     }
     public void Notificacion(byte[] img){
-        final StorageReference ref = storageReference.child("reconocimiento/prueba.jpg");
+        final StorageReference ref = storageReference.child("reconocimiento/"+nombre_imagen);
         UploadTask uploadTask = ref.putBytes(img);
         Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
             @Override
@@ -200,7 +202,7 @@ public class GalleryFragment extends Fragment {
         private byte[] message;
         String user;
         private  Bitmap bitmap;
-        String timestamp;
+
 
         public ClientThread(Bitmap bitmap, String user) {
             this.bitmap=bitmap;
@@ -229,6 +231,7 @@ public class GalleryFragment extends Fragment {
                     objectOutputStream.writeObject(byteArray);
                     objectOutputStream.writeObject(user);
                     objectOutputStream.writeObject(user+timestamp+".jpg");
+                    nombre_imagen=user+timestamp+".jpg";
                     DataInputStream entrada = new DataInputStream(socket.getInputStream());
                     dim=  entrada.readUTF();
                     message=new byte[Integer.parseInt(dim)];
