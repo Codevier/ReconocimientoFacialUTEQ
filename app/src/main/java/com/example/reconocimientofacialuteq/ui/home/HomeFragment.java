@@ -316,6 +316,8 @@ public class HomeFragment extends Fragment {
                     //String imagenBitMap=BitMapToString(bitmap);
 
                     Notificacion(message);
+                }catch (Exception c){
+
                 }
             }
             catch (UnknownHostException e1)
