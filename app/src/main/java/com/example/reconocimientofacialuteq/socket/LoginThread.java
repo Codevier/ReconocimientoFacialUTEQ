@@ -1,20 +1,13 @@
-package com.example.reconocimientofacialuteq.Socket;
+package com.example.reconocimientofacialuteq.socket;
 
-import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Build;
 
 import androidx.annotation.RequiresApi;
 
-import com.example.reconocimientofacialuteq.MainActivity2;
-import com.example.reconocimientofacialuteq.ui.login.LoginActivity;
-
 import java.io.ByteArrayOutputStream;
 import java.io.DataOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.net.UnknownHostException;
 
 public class LoginThread implements Runnable {
     private static final int SERVERPORT = 5556;

@@ -12,7 +12,7 @@
         tools:layout="@layout/mis__datos_fragment" />
     <fragment
         android:id="@+id/nav_home"
-        android:name="com.example.reconocimientofacialuteq.ui.home.HomeFragment"
+        android:name="com.example.reconocimientofacialuteq.ui.camera.CameraFragment"
         android:label="@string/menu_home"
         tools:layout="@layout/fragment_home" />
 

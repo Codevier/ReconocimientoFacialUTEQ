@@ -1,4 +1,4 @@
-package com.example.reconocimientofacialuteq.Clase;
+package com.example.reconocimientofacialuteq.clase;
 
 import android.app.Notification;
 import android.app.NotificationChannel;
@@ -13,9 +13,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 
-import com.example.reconocimientofacialuteq.MainActivity;
-import com.example.reconocimientofacialuteq.Notificacion;
-import com.example.reconocimientofacialuteq.NotificacionActivity;
+import com.example.reconocimientofacialuteq.NotificationActivity;
 import com.example.reconocimientofacialuteq.R;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -37,7 +35,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(@NonNull RemoteMessage remoteMessage) {
         super.onMessageReceived(remoteMessage);
-        Log.d("TAG", "Notificacion : " + remoteMessage.getFrom());
+        Log.d("TAG", "NotificationActivity : " + remoteMessage.getFrom());
         if(remoteMessage.getNotification()!=null) {
             Log.d("TAG", "Titulo : " + remoteMessage.getNotification().getTitle());
             Log.d("TAG", "Cuerpo : " + remoteMessage.getNotification().getBody());
@@ -74,7 +72,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
                 notifManager.createNotificationChannel(mChannel);
             }
             builder = new NotificationCompat.Builder(context, id);
-            intent = new Intent(context, Notificacion.class);
+            intent = new Intent(context, NotificationActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             Bundle noBundle = new Bundle();
             noBundle.putString("img",img);
@@ -91,7 +89,7 @@ public class MyFirebaseMessagingService extends FirebaseMessagingService {
         }
         else {
             builder = new NotificationCompat.Builder(context, id);
-            intent = new Intent(context, Notificacion.class);
+            intent = new Intent(context, NotificationActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
             Bundle noBundle = new Bundle();
             noBundle.putString("img",img);

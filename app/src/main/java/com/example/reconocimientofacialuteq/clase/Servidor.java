@@ -1,4 +1,4 @@
-package com.example.reconocimientofacialuteq.Clase;
+package com.example.reconocimientofacialuteq.clase;
 
 public class Servidor {
     public static String IpServidor="192.168.0.103";
