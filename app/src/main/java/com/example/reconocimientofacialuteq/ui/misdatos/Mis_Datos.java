@@ -3,8 +3,6 @@ package com.example.reconocimientofacialuteq.ui.misdatos;
 import androidx.annotation.RequiresApi;
 import androidx.lifecycle.ViewModelProviders;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -18,11 +16,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.reconocimientofacialuteq.Clase.Servidor;
-import com.example.reconocimientofacialuteq.MainActivity2;
+import com.example.reconocimientofacialuteq.clase.Servidor;
 import com.example.reconocimientofacialuteq.R;
-import com.example.reconocimientofacialuteq.ui.home.HomeViewModel;
-import com.example.reconocimientofacialuteq.ui.login.LoginActivity;
 
 import java.io.DataInputStream;
 import java.io.IOException;
@@ -36,7 +31,6 @@ public class Mis_Datos extends Fragment {
     private  Socket socket;
     private TextView correo, nombres;
     private String imagen,id_us="1";
-    private HomeViewModel homeViewModel;
     private ImageView img;
     View root;
     public static Mis_Datos newInstance() {
@@ -46,8 +40,6 @@ public class Mis_Datos extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        homeViewModel =
-                ViewModelProviders.of(this).get(HomeViewModel.class);
         root= inflater.inflate(R.layout.mis__datos_fragment, container, false);
         correo= root.findViewById(R.id.correo_us);
         nombres=root.findViewById(R.id.nombre_us);

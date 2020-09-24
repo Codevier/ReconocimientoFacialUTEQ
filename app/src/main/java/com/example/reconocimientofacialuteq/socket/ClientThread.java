@@ -1,13 +1,11 @@
-package com.example.reconocimientofacialuteq.Socket;
+package com.example.reconocimientofacialuteq.socket;
 
 import android.graphics.Bitmap;
 import android.os.Build;
-import android.widget.TextView;
 
 import androidx.annotation.RequiresApi;
 
-import com.example.reconocimientofacialuteq.Clase.Servidor;
-import com.example.reconocimientofacialuteq.R;
+import com.example.reconocimientofacialuteq.clase.Servidor;
 
 import java.io.ByteArrayOutputStream;
 import java.io.DataInputStream;

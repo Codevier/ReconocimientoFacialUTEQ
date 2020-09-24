@@ -1,11 +1,9 @@
-package com.example.reconocimientofacialuteq.ui.home;
+package com.example.reconocimientofacialuteq.ui.camera;
 
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.ContentValues;
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -21,7 +19,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -37,8 +34,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.reconocimientofacialuteq.Clase.Servidor;
-import com.example.reconocimientofacialuteq.MainActivity;
+import com.example.reconocimientofacialuteq.clase.Servidor;
 import com.example.reconocimientofacialuteq.R;
 
 import com.google.android.gms.tasks.Continuation;
@@ -65,9 +61,8 @@ import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
 
-public class HomeFragment extends Fragment {
+public class CameraFragment extends Fragment {
 
-    private HomeViewModel homeViewModel;
     String nombre_imagen;
     private  StorageReference storageReference;
     ImageView imageView;
@@ -86,8 +81,6 @@ public class HomeFragment extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
-        homeViewModel =
-                ViewModelProviders.of(this).get(HomeViewModel.class);
         root = inflater.inflate(R.layout.fragment_home, container, false);
         //final TextView textView = root.findViewById(R.id.text_home);
         imageView = (ImageView) root.findViewById(R.id.imageView3);
@@ -147,14 +140,8 @@ public class HomeFragment extends Fragment {
 
             }
         });
-        homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                //textView.setText(s);
-            }
-        });
         requestQueue= Volley.newRequestQueue(getActivity().getApplicationContext());
-        //Notificacion();
+        //NotificationActivity();
         return root;
     }
     public void Notificacion(byte[] img){
@@ -311,10 +298,6 @@ public class HomeFragment extends Fragment {
 
                         }
                     });
-                    //ByteArrayOutputStream byteArrayOutputStream= new ByteArrayOutputStream();
-                    //StorageReference storageReference2= storageReference.child("");
-                    //String imagenBitMap=BitMapToString(bitmap);
-
                     Notificacion(message);
                 }catch (Exception c){
 

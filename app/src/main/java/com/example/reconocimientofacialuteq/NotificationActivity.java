@@ -7,12 +7,9 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageView;
-import android.widget.TextView;
-
-import com.example.reconocimientofacialuteq.ui.misdatos.MisDatos;
 import com.squareup.picasso.Picasso;
 
-public class Notificacion extends AppCompatActivity {
+public class NotificationActivity extends AppCompatActivity {
     ImageView imageView;
     ProgressDialog progDailog;
     @Override
@@ -24,7 +21,7 @@ public class Notificacion extends AppCompatActivity {
         String uri= bundle.getString("img");
         Log.d("TAG", "Uri : " + uri);
         Log.d("TAG", "Uri 2 : " + Uri.parse(uri));
-        progDailog = new ProgressDialog(Notificacion.this);
+        progDailog = new ProgressDialog(NotificationActivity.this);
         progDailog.setMessage("Cargando datos...");
         progDailog.setIndeterminate(false);
         progDailog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
@@ -34,9 +31,5 @@ public class Notificacion extends AppCompatActivity {
                 .load(uri)
                 .into(imageView);
         progDailog.dismiss();
-        //imageView.setImageURI(Uri.parse(uri));
-       /* TextView textView =findViewById(R.id.textviNOT);
-        String message= getIntent().getStringExtra("message");
-        textView.setText(message);*/
     }
 }

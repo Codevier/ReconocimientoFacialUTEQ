@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.example.reconocimientofacialuteq.ui.login.LoginActivity;
 
-public class Pantalla_Inicio extends AppCompatActivity {
+public class Home extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,7 +34,7 @@ public class Pantalla_Inicio extends AppCompatActivity {
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
-                Intent intent = new Intent(Pantalla_Inicio.this, LoginActivity.class);
+                Intent intent = new Intent(Home.this, LoginActivity.class);
                 startActivity(intent);
                 finish();
             }

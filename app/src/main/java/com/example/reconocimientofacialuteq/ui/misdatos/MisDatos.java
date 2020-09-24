@@ -4,7 +4,6 @@ import androidx.annotation.Nullable;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.FileProvider;
-import androidx.lifecycle.ViewModelProviders;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -23,17 +22,12 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.reconocimientofacialuteq.Clase.Servidor;
+import com.example.reconocimientofacialuteq.clase.Servidor;
 import com.example.reconocimientofacialuteq.R;
-import com.example.reconocimientofacialuteq.Socket.ClientThread;
-import com.example.reconocimientofacialuteq.ui.gallery.GalleryViewModel;
-import com.example.reconocimientofacialuteq.ui.home.HomeViewModel;
 
 import java.io.DataInputStream;
 import java.io.File;
@@ -53,11 +47,9 @@ public class MisDatos extends AppCompatActivity {
     private TextView correo, nombres;
     private String id_us="1";
     private byte[] imagen;
-    private HomeViewModel homeViewModel;
     private ImageView img,cambiarimg,cargarf;
     private Bitmap bitmap;
     ProgressDialog progDailog;
-    private GalleryViewModel galleryViewModel;
     Dialog dg;
     String absolutePhotoPath;
     Uri photoUri;

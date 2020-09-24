@@ -1,25 +1,15 @@
 package com.example.reconocimientofacialuteq.ui.login;
 
-import android.app.Activity;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProviders;
 
-import android.app.Application;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 
-import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -30,13 +20,8 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.JsonObjectRequest;
-import com.android.volley.toolbox.Volley;
-import com.example.reconocimientofacialuteq.Clase.Servidor;
-import com.example.reconocimientofacialuteq.MainActivity2;
+import com.example.reconocimientofacialuteq.clase.Servidor;
+import com.example.reconocimientofacialuteq.MainActivity;
 import com.example.reconocimientofacialuteq.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -46,23 +31,14 @@ import com.google.firebase.iid.FirebaseInstanceId;
 import com.google.firebase.iid.InstanceIdResult;
 import com.google.firebase.messaging.FirebaseMessaging;
 
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.DataInputStream;
 import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.net.UnknownHostException;
-import java.util.HashMap;
-import java.util.Map;
 
 public class LoginActivity extends AppCompatActivity  {
 
-    private static final String IP = "192.168.0.102"; // Puedes cambiar a localhost
-    private static final int PUERTO = 1100;
-    private static final int SERVER_PORT = 5556;
-    private static final String SERVER_IP = "192.168.0.102";
     private  Socket socket;
     private String usuario="null";
     private String clave="null";
@@ -78,8 +54,6 @@ public class LoginActivity extends AppCompatActivity  {
         final Button loginButton = findViewById(R.id.login);
         final RadioButton radioButton = findViewById(R.id.radioButton);
         final ProgressBar loadingProgressBar = findViewById(R.id.loading);
-        String tokenid= FirebaseInstanceId.getInstance().getToken();
-        //Notificacion();
         FirebaseInstanceId.getInstance().getInstanceId()
                 .addOnCompleteListener(new OnCompleteListener<InstanceIdResult>() {
                     @Override
@@ -104,14 +78,12 @@ public class LoginActivity extends AppCompatActivity  {
             }
         });
         if(EstadoLogeado())
-        //if(true)
         {
-            Intent intent = new Intent(LoginActivity.this, MainActivity2.class);
+            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
             startActivity(intent);
             finish();
         }
         sharedPreferences= getSharedPreferences("Login",MODE_PRIVATE);
-
         guardarCredenciales=radioButton.isChecked();
         radioButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -149,32 +121,6 @@ public class LoginActivity extends AppCompatActivity  {
         return sharedPreferences2.getBoolean("Logeado",false);
     }
 
-    public void Notificacion(){
-        RequestQueue requestQueue= Volley.newRequestQueue(getApplicationContext());
-        JSONObject jsonObject=new JSONObject();
-        try {
-            String topic="general";
-            jsonObject.put( "to","/topics/"+topic);
-            JSONObject notificacion = new JSONObject();
-            notificacion.put("titulo","soy el titulo");
-            notificacion.put("detalle","soy el detalle");
-            jsonObject.put("data",notificacion);
-            String URL="https://fcm.googleapis.com/fcm/send";
-            JsonObjectRequest jsonObjectRequest= new JsonObjectRequest(Request.Method.POST,URL,jsonObject,null,null){
-                @Override
-                public Map<String, String> getHeaders() throws AuthFailureError {
-                    Map<String,String> header= new HashMap<>();
-                    header.put("content-type","application/json");
-                    header.put("authorization","key=AAAArZOL960:APA91bFPOOGosYRGBmclbjJJfBwFnij04ZKg5enyUuGVr2zrEh2s1V3d7qwXno2PE_PgiS-oM16FH2X0NKZsSv-OafCkCx-v4jhmOv9WJ4r8pJhWV1pOLgLu5GwO8z2DBt_yBaQy9N0P");
-                    return  header;
-                }
-            };
-            requestQueue.add(jsonObjectRequest);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-    }
     class ClientThreadLog implements Runnable {
         @RequiresApi(api = Build.VERSION_CODES.KITKAT)
         @Override
@@ -190,7 +136,7 @@ public class LoginActivity extends AppCompatActivity  {
                     resp= (String) entrada.readUTF();
                     if("Ok".equals(resp)){
                         idUser= (String) entrada.readUTF();
-                        Intent intent = new Intent(LoginActivity.this, MainActivity2.class);
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
                         intent.putExtra("usuario", usuario);
                         if(guardarCredenciales){
                             SharedPreferences.Editor editor= sharedPreferences.edit();
@@ -198,15 +144,11 @@ public class LoginActivity extends AppCompatActivity  {
                             editor.putString("IdUser",idUser);
                             editor.apply();
                         }
-
                         startActivity(intent);
                         finish();
                     }
                     else {
                         String welcome = getString(R.string.welcome) + usuario;
-                        //Toast.makeText(getApplicationContext(), welcome, Toast.LENGTH_LONG).show();
-                        //Intent intent = new Intent(LoginActivity.this, LoginActivity.class);
-                        //startActivity(intent);
                     }
                 } catch (IOException e) {
                     e.printStackTrace();
