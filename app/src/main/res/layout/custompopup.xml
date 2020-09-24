@@ -43,6 +43,7 @@
         android:layout_marginEnd="178dp"
         android:layout_marginRight="178dp"
         android:layout_marginBottom="25dp"
+        android:onClick="tomarFoto"
         android:src="@drawable/cameracolor"></de.hdodenhof.circleimageview.CircleImageView>
 
     <TextView
@@ -69,8 +70,9 @@
         android:layout_height="40dp"
         android:layout_marginLeft="100dp"
         android:layout_marginTop="35dp"
-    android:layout_marginBottom="25dp"
+        android:layout_marginBottom="25dp"
 
+        android:onClick="cargarFoto"
         android:src="@drawable/galeria"></de.hdodenhof.circleimageview.CircleImageView>
 
     <TextView
